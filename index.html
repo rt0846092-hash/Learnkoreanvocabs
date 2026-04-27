@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한국어 Quiz Hub</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Sora:wght@300;400;600;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="bg-orbs" aria-hidden="true">
+  <div class="orb orb--blue"></div>
+  <div class="orb orb--gold"></div>
+  <div class="orb orb--green"></div>
+</div>
+
+<div class="app">
+
+  <!-- HUB SCREEN -->
+  <div id="hub-screen" class="screen active">
+    <section class="hub" aria-label="Quiz set selection">
+
+      <header class="hub__header">
+        <div class="hub__logo" aria-label="한국어">한국어</div>
+        <h1 class="hub__title">Korean Vocabulary Hub</h1>
+        <p class="hub__sub" id="hub-subtitle">12 quiz sets.<span> 1500+ words total</span></p>
+      </header>
+
+      <div class="hub__meta" role="region" aria-label="Your stats">
+        <button class="meta-pill" onclick="showLeaderboard()" aria-label="Open leaderboard">
+          <span class="meta-pill__icon" aria-hidden="true">🏆</span>
+          <span style="color: #fff !important;">Leaderboard</span>
+        </button>
+        <div class="meta-pill" aria-label="Daily streak">
+          <span class="meta-pill__icon" aria-hidden="true">🔥</span>
+          <span id="streak-txt">0 day streak</span>
+        </div>
+        <div class="meta-pill" aria-label="Total score">
+          <span class="meta-pill__icon" aria-hidden="true">⭐</span>
+          <span id="total-score-txt">0 pts</span>
+        </div>
+      </div>
+
+      <div class="sets-grid" id="sets-grid" role="list"></div>
+
+      <button
+        class="weak-banner"
+        id="weak-banner"
+        onclick="startWeakReview()"
+        style="display:none"
+        aria-label="Start weak-word review"
+      >
+        <div class="weak-banner__left">
+          <span class="weak-banner__icon" aria-hidden="true">🎯</span>
+          <div>
+            <div class="weak-banner__title">Review Weak Words</div>
+            <div class="weak-banner__sub" id="weak-sub">Words you've missed before</div>
+          </div>
+        </div>
+        <div class="weak-banner__count" id="weak-count-hub" aria-live="polite">0</div>
+      </button>
+
+    </section>
+  </div>
+
+  <!-- STUDY SCREEN -->
+  <div id="study-screen" class="screen">
+    <section class="study" aria-label="Study mode">
+
+      <div class="study__top">
+        <button class="btn-back" onclick="goHub()">← Hub</button>
+        <label for="study-search" class="sr-only">Search words</label>
+        <input
+          class="study__search"
+          type="search"
+          id="study-search"
+          placeholder="Search words…"
+          oninput="filterStudy()"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="study__header">
+        <h2 class="study__title" id="study-title"></h2>
+        <span class="study__count" id="study-count" aria-live="polite"></span>
+      </div>
+
+      <div class="vocab-grid" id="vocab-grid" role="list"></div>
+
+    </section>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quiz-screen" class="screen">
+    <section class="quiz" aria-label="Quiz">
+
+      <div class="quiz__top">
+        <button class="btn-back" onclick="goHub()">← Hub</button>
+        <span class="quiz__set-label" id="quiz-set-label"></span>
+        <button
+          class="btn-sound on"
+          id="btn-sound"
+          onclick="toggleSound()"
+          aria-label="Toggle sound"
+          aria-pressed="true"
+        >🔊</button>
+      </div>
+
+      <!-- Mode / direction toolbar -->
+      <div class="mode-bar" role="group" aria-label="Quiz settings">
+        <button class="btn-mode active" id="mode-mcq"   onclick="setMode('mcq')">🎯 MCQ</button>
+        <button class="btn-mode"        id="mode-type"  onclick="setMode('type')">✍️ Type</button>
+        <div class="mode-bar__divider" aria-hidden="true"></div>
+        <button class="btn-mode active" id="dir-random" onclick="setDir('random')">🔀</button>
+        <button class="btn-mode"        id="dir-kr2en"  onclick="setDir('kr2en')">🇰🇷→🇬🇧</button>
+        <button class="btn-mode"        id="dir-en2kr"  onclick="setDir('en2kr')">🇬🇧→🇰🇷</button>
+        <div class="mode-bar__divider" aria-hidden="true"></div>
+        <select class="btn-mode" id="q-limit" onchange="setQLimit()">
+          <option value="0">All</option>
+          <option value="10">10 Qs</option>
+          <option value="20">20 Qs</option>
+          <option value="30">30 Qs</option>
+        </select>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="progress-bar">
+        <div class="progress-bar__fill" id="progress-fill"></div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats" aria-label="Quiz progress">
+        <div class="stat">
+          <div class="stat__val" id="stat-question">1/0</div>
+          <div class="stat__lbl">question</div>
+        </div>
+        <div class="stat">
+          <div class="stat__val" id="stat-correct" style="color:var(--green)">0</div>
+          <div class="stat__lbl">correct</div>
+        </div>
+        <div class="stat">
+          <div class="stat__val" id="stat-wrong" style="color:var(--red)">0</div>
+          <div class="stat__lbl">wrong</div>
+        </div>
+        <div class="stat">
+          <div class="stat__val" id="stat-pct" style="color:var(--gold)">—</div>
+          <div class="stat__lbl">accuracy</div>
+        </div>
+      </div>
+
+      <!-- Question card -->
+      <div class="q-card" role="main">
+        <div class="q-card__meta">
+          <span id="dir-badge" class="dir-badge">🇰🇷 → 🇬🇧</span>
+          <span id="pos-badge" class="badge badge--noun">noun</span>
+        </div>
+
+        <div
+          class="q-word"
+          id="q-word"
+          onclick="speakCurrentWord()"
+          role="button"
+          tabindex="0"
+          aria-label="Click to hear pronunciation"
+        >—</div>
+
+        <div class="q-rom" id="q-rom">—</div>
+        <div class="q-speak-hint" id="q-speak-hint">🔊 Click word to hear it</div>
+
+        <!-- MCQ options -->
+        <div class="options" id="options" role="group" aria-label="Answer choices"></div>
+
+        <!-- Typing mode -->
+        <div class="type-wrap" id="type-wrap" style="display:none">
+          <label for="type-input" class="sr-only">Type your answer</label>
+          <input
+            class="type-input"
+            id="type-input"
+            type="text"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+          />
+          <button class="btn-type-submit" onclick="submitTyping()">Check Answer ↵</button>
+          <div class="type-hint" id="type-hint" aria-live="polite"></div>
+        </div>
+
+        <div class="feedback" id="feedback" role="alert" aria-live="polite"></div>
+        <button class="btn-next" id="btn-next" onclick="nextQuestion()">Next →</button>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="result-screen" class="screen">
+    <section class="result" aria-label="Quiz result">
+
+      <div class="result__card">
+        <div class="result__emoji" id="result-emoji" aria-hidden="true">🎉</div>
+        <div class="result__score" id="result-score"></div>
+        <div class="result__pct"   id="result-pct"></div>
+
+        <div class="result__acc-bar" role="progressbar" aria-label="Accuracy">
+          <div class="result__acc-fill" id="result-acc-fill"></div>
+        </div>
+
+        <p class="result__msg" id="result-msg"></p>
+
+        <div class="result__lb-row">
+          <label for="lb-name" class="sr-only">Your name for the leaderboard</label>
+          <input
+            class="result__name-input"
+            type="text"
+            id="lb-name"
+            placeholder="Your name (leaderboard)"
+          />
+          <button class="btn-save-lb" onclick="saveToLeaderboard()">Save 🏆</button>
+        </div>
+
+        <div class="wrong-list" id="wrong-list" style="display:none">
+          <div class="wrong-list__title">❌ Missed words (added to review)</div>
+          <div id="wrong-items"></div>
+        </div>
+
+        <div class="result__actions">
+          <button class="btn-retry"  onclick="retryQuiz()">↺ Try Again</button>
+          <button class="btn-hub"    onclick="goHub()">All Sets</button>
+          <button class="btn-review" id="btn-review-missed" onclick="startWeakReview()" style="display:none">🎯 Review Missed</button>
+        </div>
+      </div>
+
+    </section>
+  </div>
+
+</div><!-- /.app -->
+
+<!-- LEADERBOARD MODAL -->
+<div class="modal-overlay hidden" id="lb-modal" role="dialog" aria-modal="true" aria-label="Leaderboard">
+  <div class="modal">
+    <button class="modal__close" onclick="closeLeaderboard()" aria-label="Close leaderboard">×</button>
+    <h2 class="modal__title">🏆 Leaderboard</h2>
+    <p class="modal__sub">Top scores across all sets</p>
+    <div class="lb-tabs" id="lb-tabs" role="tablist"></div>
+    <ul class="lb-list" id="lb-list"></ul>
+  </div>
+</div>
+
+<script src="vocabulary.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
