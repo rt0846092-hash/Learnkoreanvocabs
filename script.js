@@ -1,5 +1,5 @@
 /* ================================================================
-   APPLICATION STATE - 12 SETS READY
+   APPLICATION STATE - 13 SETS READY
 ================================================================ */
 let currentSet    = null;
 let questions     = [];
@@ -31,7 +31,7 @@ const store = {
 };
 
 /* ================================================================
-   🔥 NEW: SET PROGRESS TRACKING
+   SET PROGRESS TRACKING
 ================================================================ */
 function getSetProgress(id) {
   return store.get(`progress_${id}`, { correct: 0, total: 0, mastered: 0 });
@@ -88,17 +88,29 @@ function getTotalScore()    { return store.get('totalScore', 0); }
 function addTotalScore(pts) { store.set('totalScore', getTotalScore() + pts); }
 
 /* ================================================================
-   🔥 UPDATED: HUB META (Dynamic word count)
+   DYNAMIC TOTAL WORD COUNT
+================================================================ */
+function getTotalWordCount() {
+  let total = 0;
+  for (let i = 1; i <= 13; i++) {
+    if (SETS[i] && SETS[i].vocab) total += SETS[i].vocab.length;
+  }
+  return total;
+}
+
+/* ================================================================
+   HUB META
 ================================================================ */
 function updateHubMeta() {
   const s       = getStreak();
   const studied = store.get('studied', 0);
-  const displayTotal = '1300+';  // 🔥 FIXED!
+  const total   = getTotalWordCount();
 
   document.getElementById('streak-txt').textContent      = `${s.count} day streak`;
   document.getElementById('total-score-txt').textContent = `${getTotalScore()} pts`;
-  document.getElementById('hub-subtitle').textContent    = `12 quiz sets · ${displayTotal} words · ${studied} answered`;
+  document.getElementById('hub-subtitle').textContent    = `13 quiz sets · ${total}+ words · ${studied} answered`;
 }
+
 /* ================================================================
    INITIALISATION
 ================================================================ */
@@ -111,8 +123,8 @@ function buildHub() {
   const grid = document.getElementById('sets-grid');
   grid.innerHTML = '';
 
-  // 🔥 12 SETS (was 7)
-  for (let i = 1; i <= 12; i++) {
+  // 13 SETS
+  for (let i = 1; i <= 13; i++) {
     const m        = SET_META[i];
     const progress = getSetProgress(i);
     const card     = document.createElement('div');
@@ -240,9 +252,9 @@ function startSet(id) {
 function startWeakReview() {
   const ww = getWeakWords();
   const words = Object.values(ww);
-  if (words.length === 0) { 
-    showToast('No weak words yet! Complete a quiz first.'); 
-    return; 
+  if (words.length === 0) {
+    showToast('No weak words yet! Complete a quiz first.');
+    return;
   }
 
   currentSet = { id: 0, name: '🎯 Weak Word Review', vocab: words, color: '#f05a7e' };
@@ -259,7 +271,7 @@ function initQuizScreen() {
   document.getElementById('progress-fill').style.background =
     `linear-gradient(90deg, ${currentSet.color}, rgba(255,255,255,.5))`;
   document.getElementById('q-word').style.color = currentSet.color;
-  
+
   document.getElementById('mode-mcq').classList.toggle('active', quizMode === 'mcq');
   document.getElementById('mode-type').classList.toggle('active', quizMode === 'type');
   document.getElementById('q-limit').value = String(questionLimit);
@@ -397,10 +409,10 @@ function initTypingInput(q) {
   input.style.fontFamily = quizDirection === 'en2kr' ? 'var(--korean)' : 'var(--font)';
   input.placeholder = quizDirection === 'kr2en' ? 'Type English meaning…' : 'Type Korean word…';
   document.getElementById('type-hint').textContent = '';
-  
-  // 🔥 Enter key support
+
+  // Enter key support
   input.onkeydown = (e) => { if (e.key === 'Enter') submitTyping(); };
-  
+
   setTimeout(() => input.focus(), 100);
 }
 
@@ -471,7 +483,7 @@ function nextQuestion() {
 }
 
 /* ================================================================
-   🔥 UPDATED: RESULT SCREEN (Set Progress!)
+   RESULT SCREEN
 ================================================================ */
 function showResult() {
   showScreen('result-screen');
@@ -486,7 +498,7 @@ function showResult() {
     [75, '🎉', 'Great job! Keep up the momentum.'],
     [55, '💪', 'Good effort — practice makes perfect!'],
     [35, '📖', "Keep studying — you're making progress."],
-    [0, '🌱', "Review the set and try again — you've got this!"],
+    [0,  '🌱', "Review the set and try again — you've got this!"],
   ];
   const [, emoji, msg] = tiers.find(([threshold]) => pct >= threshold);
   document.getElementById('result-emoji').textContent = emoji;
@@ -503,7 +515,7 @@ function showResult() {
   addTotalScore(correctCount * 10);
   updateStreak();
 
-  // 🔥 NEW: Update set progress
+  // Update set progress
   if (!isWeakReview && currentSet?.id) {
     updateSetProgress(currentSet.id, correctCount, questions.length);
   }
@@ -533,51 +545,70 @@ function showResult() {
   }
 
   updateWeakBanner();
-  updateHubMeta(); // 🔥 Refresh hub with new progress
+  updateHubMeta();
 }
+
 
 function saveToLeaderboard() {
   const name = document.getElementById('lb-name').value.trim();
   if (!name) { showToast('Enter your name first!'); return; }
+
   store.set('lastName', name);
 
   const total = questions.length;
   const pct = Math.round(correctCount / total * 100);
+
   let lb = getLeaderboard();
 
-  lb.push({ 
-    name, 
-    score: correctCount, 
-    total, 
-    pct, 
-    set: currentSet.name, 
-    date: new Date().toLocaleDateString() 
+  // ❗ Prevent duplicate (same name + same set + same score)
+  const alreadyExists = lb.some(e =>
+    e.name === name &&
+    e.set === currentSet.name &&
+     e.pct === pct
+  );
+
+  if (alreadyExists) {
+    showToast('⚠️ Score already saved!');
+    return;
+  }
+
+  lb.push({
+    name,
+    score: correctCount,
+    total,
+    pct,
+    set: currentSet.name,
+    date: new Date().toLocaleDateString()
   });
+
+  // sort best first
   lb.sort((a, b) => b.pct - a.pct || b.score - a.score);
-  if (lb.length > 50) lb = lb.slice(0, 50);
 
   saveLeaderboard(lb);
-  showToast('🏆 Score saved to leaderboard!');
+
+  showToast('🏆 Score saved!');
 }
 
 /* ================================================================
    LEADERBOARD MODAL
 ================================================================ */
 let lbFilter = 'all';
-
 function showLeaderboard() {
+  document.body.classList.add('modal-open');   // ⭐ THIS is what was missing
   document.getElementById('lb-modal').classList.remove('hidden');
   renderLeaderboard();
 }
 
 function closeLeaderboard() {
+  document.body.classList.remove('modal-open'); // ⭐ unlock scroll
   document.getElementById('lb-modal').classList.add('hidden');
 }
 
 function renderLeaderboard() {
   const lb = getLeaderboard();
   const tabsEl = document.getElementById('lb-tabs');
-  const filterIds = ['all', ...Array.from({length: 12}, (_, i) => i + 1)];
+  // All 13 sets
+  const filterIds = ['all', ...Array.from({length: 13}, (_, i) => i + 1)];
   const tabLabels = ['All Sets', ...SET_META.slice(1).map(m => `${m.emoji} ${m.name.split(':')[0].trim()}`)];
 
   tabsEl.innerHTML = '';
@@ -603,7 +634,7 @@ function renderLeaderboard() {
     return;
   }
 
-  filtered.slice(0, 15).forEach((e, i) => {
+  filtered.slice(0, 3).forEach((e, i) => {
     const rank = i + 1;
     const rankClass = rank === 1 ? 'lb-rank--gold' : rank === 2 ? 'lb-rank--silver' : rank === 3 ? 'lb-rank--bronze' : '';
     const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
@@ -736,7 +767,7 @@ function goHub() {
   showScreen('hub-screen');
   updateHubMeta();
   updateWeakBanner();
-  buildHub(); // 🔥 Refresh with latest progress
+  buildHub(); // Refresh with latest progress
 }
 
 function retryQuiz() {
