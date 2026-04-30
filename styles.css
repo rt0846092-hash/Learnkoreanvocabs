@@ -13,6 +13,7 @@
   --gold:     #f0c060;
   --green:    #3ddba4;
   --red:      #f05a7e;
+  --pin:      #f0c060;
   --font:     'Sora', sans-serif;
   --korean:   'Noto Sans KR', sans-serif;
   --radius-sm:  10px;
@@ -40,9 +41,7 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
-body.modal-open {
-  overflow: hidden;
-}
+body.modal-open { overflow: hidden; }
 
 button { cursor: pointer; }
 input, button { font-family: var(--font); }
@@ -87,14 +86,13 @@ input, button { font-family: var(--font); }
 }
 
 /* ============================================================
-   SCREENS (routing)
+   SCREENS
 ============================================================ */
 .screen {
   display: none;
   width: 100%;
   animation: fadeUp 0.5s ease both;
 }
-
 .screen.active { display: block; }
 
 @keyframes fadeUp {
@@ -124,7 +122,6 @@ input, button { font-family: var(--font); }
 .hub__title { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
 .hub__sub   { font-size: 13px; color: var(--muted); font-weight: 300; }
 
-/* Meta pills row */
 .hub__meta {
   display: flex;
   gap: 10px;
@@ -183,56 +180,30 @@ input, button { font-family: var(--font); }
 .set-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.16); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
 .set-card:hover::before { opacity: 1; }
 
-/* Per-set accent colours — all 13 sets */
-/* Set 1 — Beginner Essentials (#3ddba4) */
 .set-card[data-id="1"]  { border-top: 2px solid #3ddba4; }
 .set-card[data-id="1"]::before  { background: linear-gradient(135deg,rgba(61,219,164,.06),transparent); }
-
-/* Set 2 — Essential Words (#f0c060) */
 .set-card[data-id="2"]  { border-top: 2px solid #f0c060; }
 .set-card[data-id="2"]::before  { background: linear-gradient(135deg,rgba(240,192,96,.06),transparent); }
-
-/* Set 3 — Core Verbs (#ff9f43) */
 .set-card[data-id="3"]  { border-top: 2px solid #ff9f43; }
 .set-card[data-id="3"]::before  { background: linear-gradient(135deg,rgba(255,159,67,.06),transparent); }
-
-/* Set 4 — Restaurant & Kitchen (#f0a050) */
 .set-card[data-id="4"]  { border-top: 2px solid #f0a050; }
 .set-card[data-id="4"]::before  { background: linear-gradient(135deg,rgba(240,160,80,.06),transparent); }
-
-/* Set 5 — Nature & Science (#64ffda) */
 .set-card[data-id="5"]  { border-top: 2px solid #64ffda; }
 .set-card[data-id="5"]::before  { background: linear-gradient(135deg,rgba(100,255,218,.06),transparent); }
-
-/* Set 6 — Society, Work & Health (#7bb7ff) */
 .set-card[data-id="6"]  { border-top: 2px solid #7bb7ff; }
 .set-card[data-id="6"]::before  { background: linear-gradient(135deg,rgba(123,183,255,.06),transparent); }
-
-/* Set 7 — Arts, Sports & Home (#e91e8c) */
 .set-card[data-id="7"]  { border-top: 2px solid #e91e8c; }
 .set-card[data-id="7"]::before  { background: linear-gradient(135deg,rgba(233,30,140,.06),transparent); }
-
-/* Set 8 — Shopping & Daily Life (#58a6ff) */
 .set-card[data-id="8"]  { border-top: 2px solid #58a6ff; }
 .set-card[data-id="8"]::before  { background: linear-gradient(135deg,rgba(88,166,255,.06),transparent); }
-
-/* Set 9 — Business & Office (#ff6b6b) */
 .set-card[data-id="9"]  { border-top: 2px solid #ff6b6b; }
 .set-card[data-id="9"]::before  { background: linear-gradient(135deg,rgba(255,107,107,.06),transparent); }
-
-/* Set 10 — Travel & Tourism (#4ecdc4) */
 .set-card[data-id="10"] { border-top: 2px solid #4ecdc4; }
 .set-card[data-id="10"]::before { background: linear-gradient(135deg,rgba(78,205,196,.06),transparent); }
-
-/* Set 11 — Technology (#45b7d1) */
 .set-card[data-id="11"] { border-top: 2px solid #45b7d1; }
 .set-card[data-id="11"]::before { background: linear-gradient(135deg,rgba(69,183,209,.06),transparent); }
-
-/* Set 12 — Medical & Health (#f9ca24) */
 .set-card[data-id="12"] { border-top: 2px solid #f9ca24; }
 .set-card[data-id="12"]::before { background: linear-gradient(135deg,rgba(249,202,36,.06),transparent); }
-
-/* Set 13 — Environment & Ecology (#6c5ce7) */
 .set-card[data-id="13"] { border-top: 2px solid #6c5ce7; }
 .set-card[data-id="13"]::before { background: linear-gradient(135deg,rgba(108,92,231,.06),transparent); }
 
@@ -240,7 +211,7 @@ input, button { font-family: var(--font); }
 .set-card__name  { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
 .set-card__desc  { font-size: 11.5px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
 
-.set-card__meta  {
+.set-card__meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -278,11 +249,77 @@ input, button { font-family: var(--font); }
   color: var(--text);
   border: 1px solid var(--border);
 }
-
 .btn-set--study:hover { background: rgba(255,255,255,0.13); }
-
 .btn-set--quiz { background: var(--accent); color: #fff; border: none; }
 .btn-set--quiz:hover { filter: brightness(1.15); }
+
+/* ============================================================
+   📌 PINNED WORDS BANNER
+============================================================ */
+.pinned-banner {
+  background: linear-gradient(135deg, rgba(240,192,96,0.12), rgba(240,192,96,0.04));
+  border: 1px solid rgba(240,192,96,0.3);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: border-color var(--transition);
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.pinned-banner:hover { border-color: rgba(240,192,96,0.55); }
+
+.pinned-banner__left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.pinned-banner__icon  { font-size: 24px; }
+.pinned-banner__title { font-size: 14px; font-weight: 700; color: var(--gold); }
+.pinned-banner__sub   { font-size: 12px; color: var(--muted); }
+
+.pinned-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pinned-banner__count {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gold);
+  min-width: 32px;
+  text-align: center;
+}
+
+.btn-pinned-study,
+.btn-pinned-quiz {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.btn-pinned-study {
+  background: rgba(240,192,96,0.12);
+  color: var(--gold);
+  border: 1px solid rgba(240,192,96,0.3);
+}
+.btn-pinned-study:hover { background: rgba(240,192,96,0.22); }
+
+.btn-pinned-quiz {
+  background: var(--gold);
+  color: #1a1200;
+}
+.btn-pinned-quiz:hover { filter: brightness(1.1); }
 
 /* Weak words banner */
 .weak-banner {
@@ -344,10 +381,9 @@ input, button { font-family: var(--font); }
   transition: all var(--transition);
   color: var(--muted);
 }
-
 .btn-sound.on { color: var(--gold); }
 
-/* Mode / direction bar */
+/* Mode bar */
 .mode-bar {
   display: flex;
   flex-wrap: wrap;
@@ -370,23 +406,17 @@ input, button { font-family: var(--font); }
   color: var(--muted);
   font-size: 12px;
   font-weight: 600;
-  border-radius: 8px;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%23999' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 7l5 5 5-5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 16px;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23999' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 7l5 5 5-5z'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 8px center !important;
+  background-size: 16px !important;
 }
 
-.mode-bar .btn-mode {
-  flex: 1 1 auto;
-  min-width: 70px;
-  text-align: center;
-}
-
-.mode-bar__divider { width: 1px; background: var(--border); margin: 4px 0; }
+.mode-bar .btn-mode { flex: 1 1 auto; min-width: 70px; text-align: center; }
+.mode-bar__divider  { width: 1px; background: var(--border); margin: 4px 0; }
 
 .btn-mode {
   flex: 1;
@@ -399,7 +429,6 @@ input, button { font-family: var(--font); }
   border-radius: 8px;
   transition: all var(--transition);
 }
-
 .btn-mode.active { background: var(--accent); color: #fff; }
 
 /* Progress bar */
@@ -411,16 +440,14 @@ input, button { font-family: var(--font); }
   margin-bottom: 14px;
   overflow: hidden;
 }
-
 .progress-bar__fill {
   height: 100%;
   border-radius: 99px;
   transition: width 0.4s ease;
 }
 
-/* Stats row */
+/* Stats */
 .stats { display: flex; gap: 8px; margin-bottom: 16px; }
-
 .stat {
   flex: 1;
   background: var(--card);
@@ -429,7 +456,6 @@ input, button { font-family: var(--font); }
   padding: 9px 6px;
   text-align: center;
 }
-
 .stat__val { font-size: 18px; font-weight: 800; }
 .stat__lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
 
@@ -448,6 +474,7 @@ input, button { font-family: var(--font); }
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .dir-badge {
@@ -471,12 +498,72 @@ input, button { font-family: var(--font); }
   font-weight: 700;
   letter-spacing: 0.5px;
 }
-
 .badge--noun   { background:rgba(94,106,210,.2);  color:#8b9aff; border:1px solid rgba(94,106,210,.35); }
 .badge--verb   { background:rgba(61,219,164,.2);  color:#3ddba4; border:1px solid rgba(61,219,164,.35); }
 .badge--adj    { background:rgba(240,90,126,.2);  color:#f05a7e; border:1px solid rgba(240,90,126,.35); }
 .badge--adv    { background:rgba(240,192,96,.2);  color:#f0c060; border:1px solid rgba(240,192,96,.35); }
 .badge--phrase { background:rgba(180,130,255,.2); color:#c49bff; border:1px solid rgba(180,130,255,.35); }
+
+/* ============================================================
+   📌 PIN BUTTON — IN QUIZ META ROW (top of card)
+============================================================ */
+.btn-pin-quiz {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--muted);
+  opacity: 0.6;
+  line-height: 1;
+}
+
+.btn-pin-quiz:hover,
+.btn-pin-quiz.pinned {
+  opacity: 1;
+  border-color: var(--gold);
+  background: rgba(240,192,96,0.1);
+  color: var(--gold);
+}
+
+/* ============================================================
+   📌 PIN ROW — AFTER ANSWERING
+============================================================ */
+.quiz-pin-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.btn-pin-after {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.btn-pin-after:hover {
+  border-color: rgba(240,192,96,0.5);
+  background: rgba(240,192,96,0.08);
+  color: var(--gold);
+}
+
+.btn-pin-after.pinned {
+  border-color: var(--gold);
+  background: rgba(240,192,96,0.12);
+  color: var(--gold);
+}
 
 /* Question word */
 .q-word {
@@ -493,7 +580,6 @@ input, button { font-family: var(--font); }
   cursor: pointer;
   transition: opacity 0.15s;
 }
-
 .q-word:hover { opacity: 0.8; }
 
 .q-word--english {
@@ -505,10 +591,10 @@ input, button { font-family: var(--font); }
   line-height: 1.2;
 }
 
-.q-rom       { font-size: 15px; color: var(--muted); font-weight: 600; text-align: center; margin-bottom: 22px; font-style: italic; min-height: 18px; }
-.q-speak-hint { text-align: center; font-size: 12px; font-weight: 500; color: var(--muted); margin-bottom: 16px; opacity: 1.0; }
+.q-rom        { font-size: 15px; color: var(--muted); font-weight: 600; text-align: center; margin-bottom: 22px; font-style: italic; min-height: 18px; }
+.q-speak-hint { text-align: center; font-size: 12px; font-weight: 500; color: var(--muted); margin-bottom: 16px; }
 
-/* MCQ options */
+/* MCQ */
 .options { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 
 .opt {
@@ -528,13 +614,12 @@ input, button { font-family: var(--font); }
   font-weight: 400;
   line-height: 1.3;
 }
-
 .opt:hover:not(:disabled) { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); transform: translateY(-1px); }
 .opt.correct { background: rgba(61,219,164,0.12); border-color: #3ddba4; color: #3ddba4; }
 .opt.wrong   { background: rgba(240,90,126,0.12); border-color: #f05a7e; color: #f05a7e; }
 .opt:disabled { cursor: default; transform: none; }
 
-/* Typing mode */
+/* Typing */
 .type-wrap { margin-bottom: 0; }
 
 .type-input {
@@ -550,7 +635,6 @@ input, button { font-family: var(--font); }
   transition: border-color 0.2s;
   text-align: center;
 }
-
 .type-input:focus   { border-color: var(--accent); }
 .type-input.correct { border-color: var(--green); background: rgba(61,219,164,0.08); }
 .type-input.wrong   { border-color: var(--red);   background: rgba(240,90,126,0.08); }
@@ -567,7 +651,6 @@ input, button { font-family: var(--font); }
   font-weight: 700;
   transition: opacity 0.15s;
 }
-
 .btn-type-submit:hover { opacity: 0.87; }
 
 .type-hint { font-size: 12px; color: var(--muted); text-align: center; margin-top: 8px; }
@@ -588,7 +671,6 @@ input, button { font-family: var(--font); }
   font-weight: 700;
   transition: opacity 0.15s;
 }
-
 .btn-next:hover { opacity: 0.87; }
 
 /* ============================================================
@@ -614,9 +696,7 @@ input, button { font-family: var(--font); }
   outline: none;
   transition: border-color var(--transition);
 }
-
-.study__search:focus       { border-color: var(--accent); }
-.study__search::placeholder { color: var(--muted); }
+.study__search:focus { border-color: var(--accent); }
 
 .study__header {
   display: flex;
@@ -624,7 +704,6 @@ input, button { font-family: var(--font); }
   justify-content: space-between;
   margin-bottom: 16px;
 }
-
 .study__title { font-size: 18px; font-weight: 800; }
 .study__count { font-size: 12px; color: var(--muted); }
 
@@ -638,19 +717,29 @@ input, button { font-family: var(--font); }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   transition: all 0.15s;
   cursor: pointer;
 }
-
 .vocab-item:hover { border-color: rgba(255,255,255,0.18); background: var(--card2); }
 
 .vocab-item__korean  { font-family: var(--korean); font-size: 22px; font-weight: 700; }
-.vocab-item__right   { text-align: right; }
+.vocab-item__right   { text-align: right; flex: 1; }
 .vocab-item__english { font-size: 13px; font-weight: 600; color: var(--text); }
 .vocab-item__rom     { font-size: 11px; color: var(--muted); font-style: italic; }
 .vocab-item__pos     { font-size: 10px; margin-top: 4px; }
 .vocab-item__weak    { font-size: 13px; margin-left: 4px; }
 
+/* Button group in vocab item */
+.vocab-item__btns {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Speak button */
 .btn-speak {
   background: none;
   border: none;
@@ -660,8 +749,37 @@ input, button { font-family: var(--font); }
   transition: background 0.15s;
   color: var(--muted);
 }
-
 .btn-speak:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+/* ============================================================
+   📌 PIN BUTTON — IN STUDY CARDS & RESULT
+============================================================ */
+.btn-pin {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 15px;
+  padding: 2px 6px;
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--muted);
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.btn-pin:hover,
+.btn-pin.pinned {
+  opacity: 1;
+  border-color: rgba(240,192,96,0.4);
+  background: rgba(240,192,96,0.1);
+  color: var(--gold);
+}
+
+/* Pin button inside result screen wrong list */
+.result-pin {
+  font-size: 16px;
+  padding: 3px 8px;
+}
 
 /* ============================================================
    RESULT SCREEN
@@ -697,7 +815,6 @@ input, button { font-family: var(--font); }
   width: 0;
 }
 
-/* Leaderboard name entry */
 .result__lb-row {
   display: flex;
   gap: 8px;
@@ -716,9 +833,7 @@ input, button { font-family: var(--font); }
   width: 180px;
   transition: border-color var(--transition);
 }
-
-.result__name-input:focus       { border-color: var(--gold); }
-.result__name-input::placeholder { color: var(--muted); }
+.result__name-input:focus { border-color: var(--gold); }
 
 .btn-save-lb {
   padding: 10px 18px;
@@ -730,7 +845,6 @@ input, button { font-family: var(--font); }
   font-weight: 700;
   transition: opacity 0.15s;
 }
-
 .btn-save-lb:hover { opacity: 0.85; }
 
 /* Wrong-words list */
@@ -760,11 +874,11 @@ input, button { font-family: var(--font); }
   justify-content: space-between;
   padding: 5px 0;
   border-bottom: 1px solid rgba(255,255,255,0.05);
+  gap: 8px;
 }
-
-.wrong-item:last-child { border-bottom: none; }
+.wrong-item:last-child  { border-bottom: none; }
 .wrong-item__korean    { font-family: var(--korean); font-size: 16px; font-weight: 700; }
-.wrong-item__english   { font-size: 12px; color: var(--muted); }
+.wrong-item__english   { font-size: 12px; color: var(--muted); flex: 1; }
 
 /* Result buttons */
 .result__actions {
@@ -773,7 +887,6 @@ input, button { font-family: var(--font); }
   justify-content: center;
   flex-wrap: wrap;
 }
-
 .result__actions button {
   padding: 12px 22px;
   border-radius: 12px;
@@ -785,10 +898,8 @@ input, button { font-family: var(--font); }
 
 .btn-retry  { background: linear-gradient(135deg, var(--accent), #8b9aff); color: #fff; }
 .btn-retry:hover { opacity: 0.87; }
-
 .btn-hub    { background: var(--surface); color: var(--text); border: 1px solid var(--border) !important; }
 .btn-hub:hover { border-color: rgba(255,255,255,0.25) !important; }
-
 .btn-review { background: rgba(240,90,126,0.15); color: var(--red); border: 1px solid rgba(240,90,126,0.3) !important; }
 .btn-review:hover { background: rgba(240,90,126,0.25); }
 
@@ -806,7 +917,6 @@ input, button { font-family: var(--font); }
   padding: 20px;
   backdrop-filter: blur(4px);
 }
-
 .modal-overlay.hidden { display: none; }
 
 .modal {
@@ -824,7 +934,6 @@ input, button { font-family: var(--font); }
 
 .modal__title { font-size: 20px; font-weight: 800; margin-bottom: 4px; color: var(--text); }
 .modal__sub   { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-
 .modal__close {
   float: right;
   background: none;
@@ -834,10 +943,8 @@ input, button { font-family: var(--font); }
   line-height: 1;
   margin-top: -4px;
 }
-
 .modal__close:hover { color: var(--text); }
 
-/* Leaderboard tabs */
 .lb-tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
 
 .lb-tab {
@@ -850,13 +957,10 @@ input, button { font-family: var(--font); }
   background: transparent;
   transition: all var(--transition);
 }
-
-.lb-tab:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+.lb-tab:hover  { border-color: rgba(255,255,255,0.2); color: var(--text); }
 .lb-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-/* Leaderboard entries */
 .lb-list { list-style: none; }
-
 .lb-item {
   display: flex;
   align-items: center;
@@ -867,12 +971,10 @@ input, button { font-family: var(--font); }
   background: rgba(255,255,255,0.05) !important;
   border: 1px solid var(--border) !important;
 }
-
 .lb-rank         { font-size: 18px; font-weight: 800; width: 28px; text-align: center; color: var(--muted); }
 .lb-rank--gold   { color: #c89a00; }
 .lb-rank--silver { color: #7a8599; }
 .lb-rank--bronze { color: #a05a20; }
-
 .lb-info   { flex: 1; }
 .lb-name   { font-size: 14px; font-weight: 700; color: var(--text) !important; }
 .lb-detail { font-size: 11px; color: var(--muted) !important; margin-top: 2px; }
@@ -899,7 +1001,7 @@ input, button { font-family: var(--font); }
 }
 
 /* ============================================================
-   TOAST NOTIFICATION
+   TOAST
 ============================================================ */
 .toast {
   position: fixed;
@@ -934,10 +1036,8 @@ input, button { font-family: var(--font); }
 ============================================================ */
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
   overflow: hidden;
   clip: rect(0,0,0,0);
   white-space: nowrap;
@@ -984,7 +1084,9 @@ input, button { font-family: var(--font); }
   .vocab-grid { grid-template-columns: 1fr 1fr; }
   .mode-bar { gap: 6px; padding: 5px; }
   .btn-mode { font-size: 12px; padding: 6px 8px; min-width: 60px; }
-  #q-limit { font-size: 12px; padding: 6px 28px 6px 8px; }
+  #q-limit  { font-size: 12px; padding: 6px 28px 6px 8px; }
+  .pinned-banner { flex-direction: column; align-items: flex-start; }
+  .pinned-banner__actions { width: 100%; justify-content: space-between; }
 }
 
 @media (max-width: 480px) {

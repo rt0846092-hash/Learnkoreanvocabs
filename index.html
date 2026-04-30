@@ -47,6 +47,23 @@
 
       <div class="sets-grid" id="sets-grid" role="list"></div>
 
+      <!-- PINNED WORDS BANNER -->
+      <div class="pinned-banner" id="pinned-banner" style="display:none" aria-label="Pinned words">
+        <div class="pinned-banner__left">
+          <span class="pinned-banner__icon" aria-hidden="true">📌</span>
+          <div>
+            <div class="pinned-banner__title">My Pinned Words</div>
+            <div class="pinned-banner__sub" id="pinned-sub">Words you've saved to focus on</div>
+          </div>
+        </div>
+        <div class="pinned-banner__actions">
+          <div class="pinned-banner__count" id="pinned-count-hub" aria-live="polite">0</div>
+          <button class="btn-pinned-study" onclick="startPinnedStudy()" aria-label="Study pinned words">📖 Study</button>
+          <button class="btn-pinned-quiz"  onclick="startPinnedQuiz()"  aria-label="Quiz pinned words">🎯 Quiz</button>
+        </div>
+      </div>
+
+      <!-- WEAK WORDS BANNER -->
       <button
         class="weak-banner"
         id="weak-banner"
@@ -157,6 +174,8 @@
         <div class="q-card__meta">
           <span id="dir-badge" class="dir-badge">🇰🇷 → 🇬🇧</span>
           <span id="pos-badge" class="badge badge--noun">noun</span>
+          <!-- PIN button inside quiz -->
+          <button class="btn-pin-quiz" id="btn-pin-quiz" onclick="togglePinCurrentQuestion()" aria-label="Pin this word" title="Pin this word">📌</button>
         </div>
 
         <div
@@ -190,6 +209,15 @@
         </div>
 
         <div class="feedback" id="feedback" role="alert" aria-live="polite"></div>
+
+        <!-- Pin feedback area (shown after answering) -->
+        <div class="quiz-pin-row" id="quiz-pin-row" style="display:none">
+          <button class="btn-pin-after" id="btn-pin-after" onclick="togglePinCurrentQuestion()">
+            <span id="pin-after-icon">📌</span>
+            <span id="pin-after-label">Pin this word</span>
+          </button>
+        </div>
+
         <button class="btn-next" id="btn-next" onclick="nextQuestion()">Next →</button>
       </div>
 
