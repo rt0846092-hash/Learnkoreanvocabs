@@ -27,7 +27,7 @@
       <header class="hub__header">
         <div class="hub__logo" aria-label="한국어">한국어</div>
         <h1 class="hub__title">Korean Vocabulary Hub</h1>
-        <p class="hub__sub" id="hub-subtitle">13 quiz sets.<span> 1500+ words total</span></p>
+        <p class="hub__sub" id="hub-subtitle">13 quiz sets · 1300+ words total</p>
       </header>
 
       <div class="hub__meta" role="region" aria-label="Your stats">
@@ -106,6 +106,13 @@
         <span class="study__count" id="study-count" aria-live="polite"></span>
       </div>
 
+      <!-- Study mode legend -->
+      <div class="study__legend">
+        <span class="study__legend-item">🔊 hear word</span>
+        <span class="study__legend-item">📍 pin word</span>
+        <span class="study__legend-item">Tap inside anywhere to see example || conjugations</span>
+      </div>
+
       <div class="vocab-grid" id="vocab-grid" role="list"></div>
 
     </section>
@@ -174,7 +181,6 @@
         <div class="q-card__meta">
           <span id="dir-badge" class="dir-badge">🇰🇷 → 🇬🇧</span>
           <span id="pos-badge" class="badge badge--noun">noun</span>
-          <!-- PIN button inside quiz -->
           <button class="btn-pin-quiz" id="btn-pin-quiz" onclick="togglePinCurrentQuestion()" aria-label="Pin this word" title="Pin this word">📌</button>
         </div>
 

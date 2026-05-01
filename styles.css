@@ -1,6 +1,6 @@
-/* ============================================================
+/* ================================================================
    DESIGN TOKENS
-============================================================ */
+================================================================ */
 :root {
   --bg:       #07080f;
   --surface:  #0d0f1c;
@@ -23,9 +23,9 @@
   --transition: 0.2s ease;
 }
 
-/* ============================================================
+/* ================================================================
    RESET & BASE
-============================================================ */
+================================================================ */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -46,9 +46,9 @@ body.modal-open { overflow: hidden; }
 button { cursor: pointer; }
 input, button { font-family: var(--font); }
 
-/* ============================================================
+/* ================================================================
    ANIMATED BACKGROUND
-============================================================ */
+================================================================ */
 .bg-orbs {
   position: fixed;
   inset: 0;
@@ -72,9 +72,9 @@ input, button { font-family: var(--font); }
 @keyframes drift2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-50px,50px)} }
 @keyframes drift3 { 0%,100%{transform:translate(-50%,-50%)} 50%{transform:translate(-45%,-55%)} }
 
-/* ============================================================
+/* ================================================================
    LAYOUT
-============================================================ */
+================================================================ */
 .app {
   position: relative;
   z-index: 1;
@@ -85,9 +85,9 @@ input, button { font-family: var(--font); }
   padding: 32px 16px 60px;
 }
 
-/* ============================================================
+/* ================================================================
    SCREENS
-============================================================ */
+================================================================ */
 .screen {
   display: none;
   width: 100%;
@@ -100,9 +100,9 @@ input, button { font-family: var(--font); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ============================================================
+/* ================================================================
    HUB SCREEN
-============================================================ */
+================================================================ */
 .hub { max-width: 720px; margin: 0 auto; }
 
 .hub__header { text-align: center; margin-bottom: 36px; }
@@ -253,9 +253,9 @@ input, button { font-family: var(--font); }
 .btn-set--quiz { background: var(--accent); color: #fff; border: none; }
 .btn-set--quiz:hover { filter: brightness(1.15); }
 
-/* ============================================================
-   📌 PINNED WORDS BANNER
-============================================================ */
+/* ================================================================
+   PINNED WORDS BANNER
+================================================================ */
 .pinned-banner {
   background: linear-gradient(135deg, rgba(240,192,96,0.12), rgba(240,192,96,0.04));
   border: 1px solid rgba(240,192,96,0.3);
@@ -342,9 +342,9 @@ input, button { font-family: var(--font); }
 .weak-banner__sub     { font-size: 12px; color: var(--muted); }
 .weak-banner__count   { font-size: 28px; font-weight: 800; color: var(--red); }
 
-/* ============================================================
+/* ================================================================
    SHARED NAV ELEMENTS
-============================================================ */
+================================================================ */
 .btn-back {
   background: var(--card);
   border: 1px solid var(--border);
@@ -358,9 +358,9 @@ input, button { font-family: var(--font); }
 
 .btn-back:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
 
-/* ============================================================
+/* ================================================================
    QUIZ SCREEN
-============================================================ */
+================================================================ */
 .quiz { max-width: 600px; margin: 0 auto; }
 
 .quiz__top {
@@ -504,9 +504,9 @@ input, button { font-family: var(--font); }
 .badge--adv    { background:rgba(240,192,96,.2);  color:#f0c060; border:1px solid rgba(240,192,96,.35); }
 .badge--phrase { background:rgba(180,130,255,.2); color:#c49bff; border:1px solid rgba(180,130,255,.35); }
 
-/* ============================================================
-   📌 PIN BUTTON — IN QUIZ META ROW (top of card)
-============================================================ */
+/* ================================================================
+   PIN BUTTON — IN QUIZ META ROW
+================================================================ */
 .btn-pin-quiz {
   margin-left: auto;
   background: none;
@@ -529,9 +529,9 @@ input, button { font-family: var(--font); }
   color: var(--gold);
 }
 
-/* ============================================================
-   📌 PIN ROW — AFTER ANSWERING
-============================================================ */
+/* ================================================================
+   PIN ROW — AFTER ANSWERING
+================================================================ */
 .quiz-pin-row {
   display: flex;
   justify-content: center;
@@ -673,9 +673,9 @@ input, button { font-family: var(--font); }
 }
 .btn-next:hover { opacity: 0.87; }
 
-/* ============================================================
+/* ================================================================
    STUDY SCREEN
-============================================================ */
+================================================================ */
 .study { max-width: 700px; margin: 0 auto; }
 
 .study__top {
@@ -702,26 +702,58 @@ input, button { font-family: var(--font); }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 .study__title { font-size: 18px; font-weight: 800; }
 .study__count { font-size: 12px; color: var(--muted); }
 
+.study__legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+}
+
+.study__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
 
+/* ================================================================
+   VOCAB ITEM — BASE
+================================================================ */
 .vocab-item {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 14px 16px;
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.18s;
+  cursor: pointer;
+}
+
+.vocab-item:hover { border-color: rgba(255,255,255,0.18); background: var(--card2); }
+
+.vocab-item.expanded {
+  border-color: rgba(94,106,210,0.4);
+  background: var(--card2);
+}
+
+/* ================================================================
+   VOCAB ITEM — MAIN ROW
+================================================================ */
+.vocab-item__main {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  transition: all 0.15s;
-  cursor: pointer;
+  padding: 14px 16px;
 }
-.vocab-item:hover { border-color: rgba(255,255,255,0.18); background: var(--card2); }
 
 .vocab-item__korean  { font-family: var(--korean); font-size: 22px; font-weight: 700; }
 .vocab-item__right   { text-align: right; flex: 1; }
@@ -730,7 +762,6 @@ input, button { font-family: var(--font); }
 .vocab-item__pos     { font-size: 10px; margin-top: 4px; }
 .vocab-item__weak    { font-size: 13px; margin-left: 4px; }
 
-/* Button group in vocab item */
 .vocab-item__btns {
   display: flex;
   flex-direction: column;
@@ -739,7 +770,6 @@ input, button { font-family: var(--font); }
   flex-shrink: 0;
 }
 
-/* Speak button */
 .btn-speak {
   background: none;
   border: none;
@@ -751,9 +781,127 @@ input, button { font-family: var(--font); }
 }
 .btn-speak:hover { background: rgba(255,255,255,0.1); color: var(--text); }
 
-/* ============================================================
-   📌 PIN BUTTON — IN STUDY CARDS & RESULT
-============================================================ */
+/* ================================================================
+   VOCAB ITEM — EXPAND HINT
+================================================================ */
+.vocab-item__expand-hint {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  text-align: center;
+  padding: 0 16px 8px;
+  letter-spacing: 0.3px;
+  transition: color 0.15s;
+  user-select: none;
+}
+
+.vocab-item:hover .vocab-item__expand-hint { color: rgba(255,255,255,0.45); }
+.vocab-item.expanded .vocab-item__expand-hint { color: rgba(94,106,210,0.7); }
+
+/* ================================================================
+   VOCAB ITEM — EXPANDABLE DETAIL PANEL
+================================================================ */
+.vocab-item__detail {
+  border-top: 1px solid var(--border);
+  padding: 14px 16px 16px;
+  animation: detailFadeIn 0.22s ease both;
+}
+
+@keyframes detailFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================================================
+   EXAMPLE SENTENCE
+================================================================ */
+.vocab-item__sentence { margin-bottom: 12px; }
+
+.vocab-item__sentence-label {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(94,106,210,0.12);
+  border: 1px solid rgba(94,106,210,0.25);
+  border-radius: 5px;
+  padding: 2px 7px;
+  margin-bottom: 6px;
+}
+
+.vocab-item__sentence-text {
+  display: block;
+  font-size: 12px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.75);
+  font-style: italic;
+  font-family: var(--korean);
+}
+
+.vocab-item__sentence-text em {
+  font-style: normal;
+  color: rgba(255,255,255,0.45);
+  font-family: var(--font);
+  font-size: 11px;
+}
+
+/* ================================================================
+   VERB CONJUGATION TABLE
+================================================================ */
+.vocab-item__conj {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.vocab-item__conj-title {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+.vocab-item__conj-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.vocab-item__conj-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.conj-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-radius: 5px;
+  padding: 2px 7px;
+  min-width: 48px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.conj-past    { background: rgba(240,90,126,0.15); color: #f05a7e; border: 1px solid rgba(240,90,126,0.3); }
+.conj-present { background: rgba(61,219,164,0.15); color: #3ddba4; border: 1px solid rgba(61,219,164,0.3); }
+.conj-future  { background: rgba(94,106,210,0.15); color: #8b9aff; border: 1px solid rgba(94,106,210,0.3); }
+
+.conj-form {
+  font-family: var(--korean);
+  font-size: 12px;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* ================================================================
+   PIN BUTTON — IN STUDY CARDS & RESULT
+================================================================ */
 .btn-pin {
   background: none;
   border: 1px solid transparent;
@@ -775,15 +923,11 @@ input, button { font-family: var(--font); }
   color: var(--gold);
 }
 
-/* Pin button inside result screen wrong list */
-.result-pin {
-  font-size: 16px;
-  padding: 3px 8px;
-}
+.result-pin { font-size: 16px; padding: 3px 8px; }
 
-/* ============================================================
+/* ================================================================
    RESULT SCREEN
-============================================================ */
+================================================================ */
 .result { max-width: 520px; margin: 0 auto; }
 
 .result__card {
@@ -847,7 +991,6 @@ input, button { font-family: var(--font); }
 }
 .btn-save-lb:hover { opacity: 0.85; }
 
-/* Wrong-words list */
 .wrong-list {
   background: rgba(240,90,126,0.07);
   border: 1px solid rgba(240,90,126,0.2);
@@ -880,7 +1023,6 @@ input, button { font-family: var(--font); }
 .wrong-item__korean    { font-family: var(--korean); font-size: 16px; font-weight: 700; }
 .wrong-item__english   { font-size: 12px; color: var(--muted); flex: 1; }
 
-/* Result buttons */
 .result__actions {
   display: flex;
   gap: 10px;
@@ -903,9 +1045,9 @@ input, button { font-family: var(--font); }
 .btn-review { background: rgba(240,90,126,0.15); color: var(--red); border: 1px solid rgba(240,90,126,0.3) !important; }
 .btn-review:hover { background: rgba(240,90,126,0.25); }
 
-/* ============================================================
+/* ================================================================
    LEADERBOARD MODAL
-============================================================ */
+================================================================ */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -981,9 +1123,9 @@ input, button { font-family: var(--font); }
 .lb-score  { font-size: 16px; font-weight: 800; color: var(--green) !important; }
 .lb-empty  { text-align: center; color: var(--muted); font-size: 14px; padding: 30px 0; }
 
-/* ============================================================
+/* ================================================================
    CONFETTI
-============================================================ */
+================================================================ */
 .confetti-piece {
   position: fixed;
   width: 8px;
@@ -1000,9 +1142,9 @@ input, button { font-family: var(--font); }
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
 }
 
-/* ============================================================
+/* ================================================================
    TOAST
-============================================================ */
+================================================================ */
 .toast {
   position: fixed;
   bottom: 30px;
@@ -1024,16 +1166,16 @@ input, button { font-family: var(--font); }
   to   { opacity: 1; transform: translate(-50%, 0); }
 }
 
-/* ============================================================
+/* ================================================================
    SCROLLBAR
-============================================================ */
+================================================================ */
 ::-webkit-scrollbar       { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
 
-/* ============================================================
+/* ================================================================
    SCREEN READER UTILITY
-============================================================ */
+================================================================ */
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
@@ -1044,9 +1186,9 @@ input, button { font-family: var(--font); }
   border: 0;
 }
 
-/* ============================================================
+/* ================================================================
    PROGRESS BARS (set cards)
-============================================================ */
+================================================================ */
 .set-card__progress {
   display: flex;
   align-items: center;
@@ -1076,21 +1218,24 @@ input, button { font-family: var(--font); }
   font-size: 10px;
 }
 
-/* ============================================================
+/* ================================================================
    RESPONSIVE
-============================================================ */
+================================================================ */
 @media (max-width: 520px) {
   .sets-grid { grid-template-columns: 1fr; }
-  .vocab-grid { grid-template-columns: 1fr 1fr; }
+  .vocab-grid { grid-template-columns: 1fr; }
   .mode-bar { gap: 6px; padding: 5px; }
   .btn-mode { font-size: 12px; padding: 6px 8px; min-width: 60px; }
   #q-limit  { font-size: 12px; padding: 6px 28px 6px 8px; }
   .pinned-banner { flex-direction: column; align-items: flex-start; }
   .pinned-banner__actions { width: 100%; justify-content: space-between; }
+  .vocab-item__conj-row { flex-wrap: wrap; }
 }
 
 @media (max-width: 480px) {
   .q-word { font-size: 1.75rem !important; line-height: 1.25; }
   .mode-bar { padding: 5px; gap: 6px; }
   .btn-mode, #q-limit { font-size: 12px; padding: 7px 8px; }
+  .vocab-item__sentence-text { font-size: 11px; }
+  .conj-form { font-size: 11px; }
 }

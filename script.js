@@ -1,5 +1,5 @@
 /* ================================================================
-   APPLICATION STATE - 13 SETS READY
+   APPLICATION STATE - 13 SETS
 ================================================================ */
 let currentSet    = null;
 let questions     = [];
@@ -65,10 +65,7 @@ function removeWeakWord(key) {
 }
 
 /* ================================================================
-   📌 PINNED-WORD HELPERS
-   - Pinned words are INDEPENDENT from weak words
-   - Manual pin = manual unpin only
-   - Weak words still auto-remove on correct answer as before
+   PINNED-WORD HELPERS
 ================================================================ */
 function getPinnedWords()     { return store.get('pinned', {}); }
 function savePinnedWords(obj) { store.set('pinned', obj); }
@@ -96,39 +93,31 @@ function unpinWord(wordKey) {
 }
 
 function togglePin(word) {
-  if (isPinned(word.k)) {
-    unpinWord(word.k);
-    return false; // now unpinned
-  } else {
-    pinWord(word);
-    return true; // now pinned
-  }
+  if (isPinned(word.k)) { unpinWord(word.k); return false; }
+  else { pinWord(word); return true; }
 }
 
 /* ================================================================
-   PIN CURRENT QUIZ QUESTION (called from quiz screen buttons)
+   PIN CURRENT QUIZ QUESTION
 ================================================================ */
 function togglePinCurrentQuestion() {
   const q = questions[qi];
   if (!q) return;
   const nowPinned = togglePin(q);
   updateQuizPinUI(nowPinned);
-  // Also refresh study pin icons if present
   const existingBtn = document.querySelector(`.vocab-item[data-key="${CSS.escape(q.k)}"] .btn-pin`);
   if (existingBtn) setPinBtnState(existingBtn, nowPinned);
 }
 
 function updateQuizPinUI(pinned) {
-  // Top meta pin button (always visible)
   const topBtn = document.getElementById('btn-pin-quiz');
   if (topBtn) {
     topBtn.classList.toggle('pinned', pinned);
     topBtn.title = pinned ? 'Unpin this word' : 'Pin this word';
   }
-  // After-answer pin button
   const afterIcon  = document.getElementById('pin-after-icon');
   const afterLabel = document.getElementById('pin-after-label');
-  if (afterIcon)  afterIcon.textContent  = pinned ? '📌' : '📌';
+  if (afterIcon)  afterIcon.textContent  = '📌';
   if (afterLabel) afterLabel.textContent = pinned ? 'Unpin this word' : 'Pin this word';
   const afterBtn = document.getElementById('btn-pin-after');
   if (afterBtn) afterBtn.classList.toggle('pinned', pinned);
@@ -137,8 +126,7 @@ function updateQuizPinUI(pinned) {
 function refreshQuizPinUI() {
   const q = questions[qi];
   if (!q) return;
-  const pinned = isPinned(q.k);
-  updateQuizPinUI(pinned);
+  updateQuizPinUI(isPinned(q.k));
 }
 
 /* ================================================================
@@ -158,13 +146,12 @@ function updatePinnedBanner() {
 }
 
 /* ================================================================
-   START PINNED STUDY (study mode, read-only browse)
+   PINNED STUDY / QUIZ
 ================================================================ */
 function startPinnedStudy() {
   const pw    = getPinnedWords();
   const words = Object.values(pw);
   if (words.length === 0) { showToast('No pinned words yet!'); return; }
-
   currentSet = { id: 0, name: '📌 Pinned Words', vocab: words, color: '#f0c060' };
   showScreen('study-screen');
   document.getElementById('study-title').textContent = '📌 Pinned Words';
@@ -172,14 +159,10 @@ function startPinnedStudy() {
   renderStudyList(words);
 }
 
-/* ================================================================
-   START PINNED QUIZ
-================================================================ */
 function startPinnedQuiz() {
   const pw    = getPinnedWords();
   const words = Object.values(pw);
   if (words.length === 0) { showToast('No pinned words yet!'); return; }
-
   currentSet   = { id: 0, name: '📌 Pinned Words Quiz', vocab: words, color: '#f0c060' };
   isWeakReview = false;
   isPinnedQuiz = true;
@@ -214,27 +197,29 @@ function getTotalScore()    { return store.get('totalScore', 0); }
 function addTotalScore(pts) { store.set('totalScore', getTotalScore() + pts); }
 
 /* ================================================================
-   DYNAMIC TOTAL WORD COUNT
+   DYNAMIC TOTAL WORD COUNT — uses SETS.length dynamically
 ================================================================ */
 function getTotalWordCount() {
   let total = 0;
-  for (let i = 1; i <= 13; i++) {
+  for (let i = 1; i < SETS.length; i++) {
     if (SETS[i] && SETS[i].vocab) total += SETS[i].vocab.length;
   }
   return total;
 }
 
 /* ================================================================
-   HUB META
+   HUB META — dynamic set count from SETS array
 ================================================================ */
 function updateHubMeta() {
   const s       = getStreak();
   const studied = store.get('studied', 0);
   const total   = getTotalWordCount();
-
+  const setCount = SETS.length - 1; // exclude the null at index 0
   document.getElementById('streak-txt').textContent      = `${s.count} day streak`;
   document.getElementById('total-score-txt').textContent = `${getTotalScore()} pts`;
-  document.getElementById('hub-subtitle').textContent    = `13 quiz sets · ${total}+ words · ${studied} answered`;
+  const roundedTotal = Math.floor(total / 100) * 100;
+  document.getElementById('hub-subtitle').innerHTML =
+    `${setCount} quiz sets · <span>${roundedTotal}+ words</span> · ${studied} answered`;
 }
 
 /* ================================================================
@@ -249,9 +234,30 @@ function buildHub() {
   const grid = document.getElementById('sets-grid');
   grid.innerHTML = '';
 
-  for (let i = 1; i <= 13; i++) {
+  const SET_DESC = [
+    null,
+    'Core words every learner needs first',         // 1
+    'Family, body, daily objects & colors',         // 2
+    '{n} essential Korean verbs',                   // 3
+    'Food, cooking, restaurant terms',              // 4
+    'Nature, weather, animals, technology',         // 5
+    'Education, careers, medicine',                 // 6
+    'Culture, sports, furniture, transport',        // 7
+    'Commerce, emotions, hobbies, routines',        // 8
+    'Meetings, projects, business terms',           // 9
+    'Travel, hotels, airports, sightseeing',        // 10
+    'Internet, apps, programming, devices',         // 11
+    'Symptoms, treatments, medicine',               // 12
+    'Climate, sustainability, ecology',             // 13
+  ];
+
+  const totalSets = SETS.length - 1; // dynamic: works for any number of sets
+
+  for (let i = 1; i <= totalSets; i++) {
     const m        = SET_META[i];
     const progress = getSetProgress(i);
+    const count    = SETS[i].vocab.length;
+    const desc     = (SET_DESC[i] || m.desc).replace('{n}', count);
     const card     = document.createElement('div');
     card.className = 'set-card';
     card.setAttribute('data-id', i);
@@ -259,9 +265,9 @@ function buildHub() {
     card.innerHTML = `
       <span class="set-card__emoji" aria-hidden="true">${m.emoji}</span>
       <div class="set-card__name">${m.name}</div>
-      <div class="set-card__desc">${m.desc}</div>
+      <div class="set-card__desc">${desc}</div>
       <div class="set-card__meta">
-        <span class="set-card__count" style="color:${m.color}">${SETS[i].vocab.length} words</span>
+        <span class="set-card__count" style="color:${m.color}">${count} words</span>
         <div class="set-card__progress">
           <div class="progress-bar-mini">
             <div class="progress-fill-mini" style="width:${progress.mastered}%"></div>
@@ -284,7 +290,6 @@ function updateWeakBanner() {
   const ww     = getWeakWords();
   const cnt    = Object.keys(ww).length;
   const banner = document.getElementById('weak-banner');
-
   if (cnt > 0) {
     banner.style.display = 'flex';
     document.getElementById('weak-count-hub').textContent = cnt;
@@ -315,7 +320,7 @@ function filterStudy() {
 }
 
 /* ================================================================
-   PIN BUTTON STATE HELPER
+   PIN BUTTON STATE
 ================================================================ */
 function setPinBtnState(btn, pinned) {
   btn.textContent = pinned ? '📌' : '📍';
@@ -324,38 +329,87 @@ function setPinBtnState(btn, pinned) {
 }
 
 /* ================================================================
-   RENDER STUDY LIST (with pin buttons)
+   RENDER STUDY LIST
 ================================================================ */
 function renderStudyList(list) {
-  const grid   = document.getElementById('vocab-grid');
+  const grid    = document.getElementById('vocab-grid');
   const weakMap = getWeakWords();
   grid.innerHTML = '';
   document.getElementById('study-count').textContent = `${list.length} words`;
 
   list.forEach(w => {
-    const isWeak   = !!weakMap[w.k];
-    const pinned   = isPinned(w.k);
-    const item     = document.createElement('div');
+    const isWeak = !!weakMap[w.k];
+    const pinned = isPinned(w.k);
+    const isVerb = w.pos === 'verb';
+
+    const item = document.createElement('div');
     item.className = 'vocab-item';
     item.setAttribute('role', 'listitem');
     item.setAttribute('data-key', w.k);
 
-    item.innerHTML = `
-      <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
-        <span class="vocab-item__korean">${w.k}</span>
-        ${isWeak ? '<span class="vocab-item__weak" title="Weak word">🎯</span>' : ''}
-      </div>
-      <div class="vocab-item__right">
-        <div class="vocab-item__english">${w.en}</div>
-        <div class="vocab-item__rom">${w.r || ''}</div>
-        <div class="vocab-item__pos"><span class="badge badge--${w.pos === 'adverb' ? 'adv' : w.pos}">${w.pos}</span></div>
-      </div>
-      <div class="vocab-item__btns">
-        <button class="btn-speak" onclick="speakKorean('${w.k.replace(/'/g, "\\'")}');event.stopPropagation()" aria-label="Hear ${w.k}">🔊</button>
-        <button class="btn-pin ${pinned ? 'pinned' : ''}" data-key="${w.k.replace(/"/g, '&quot;')}" aria-label="${pinned ? 'Unpin' : 'Pin'} ${w.k}" title="${pinned ? 'Unpin' : 'Pin'} this word">${pinned ? '📌' : '📍'}</button>
-      </div>`;
+    let detailHTML = '';
 
-    // Pin button handler
+    if (w.ex) {
+      detailHTML += `
+        <div class="vocab-item__sentence">
+          <span class="vocab-item__sentence-label">Example</span>
+          <span class="vocab-item__sentence-text">${w.ex}</span>
+        </div>`;
+    }
+
+    if (isVerb && w.conj) {
+      detailHTML += `
+        <div class="vocab-item__conj">
+          <div class="vocab-item__conj-title">Conjugations</div>
+          <div class="vocab-item__conj-row">
+            <span class="conj-badge conj-past">Past</span>
+            <span class="conj-form">${w.conj.past}</span>
+          </div>
+          <div class="vocab-item__conj-row">
+            <span class="conj-badge conj-present">Present</span>
+            <span class="conj-form">${w.conj.present}</span>
+          </div>
+          <div class="vocab-item__conj-row">
+            <span class="conj-badge conj-future">Future</span>
+            <span class="conj-form">${w.conj.future}</span>
+          </div>
+        </div>`;
+    }
+
+    item.innerHTML = `
+      <div class="vocab-item__main">
+        <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
+          <span class="vocab-item__korean">${w.k}</span>
+          ${isWeak ? '<span class="vocab-item__weak" title="Weak word">🎯</span>' : ''}
+        </div>
+        <div class="vocab-item__right">
+          <div class="vocab-item__english">${w.en}</div>
+          <div class="vocab-item__rom">${w.r || ''}</div>
+          <div class="vocab-item__pos"><span class="badge badge--${w.pos === 'adverb' ? 'adv' : w.pos}">${w.pos}</span></div>
+        </div>
+        <div class="vocab-item__btns">
+          <button class="btn-speak" onclick="speakKorean('${w.k.replace(/'/g, "\\'")}');event.stopPropagation()" aria-label="Hear ${w.k}">🔊</button>
+          <button class="btn-pin ${pinned ? 'pinned' : ''}" data-key="${w.k.replace(/"/g, '&quot;')}" aria-label="${pinned ? 'Unpin' : 'Pin'} ${w.k}" title="${pinned ? 'Unpin' : 'Pin'} this word">${pinned ? '📌' : '📍'}</button>
+        </div>
+      </div>
+      ${detailHTML ? `<div class="vocab-item__detail" style="display:none">${detailHTML}</div>` : ''}
+      ${detailHTML ? '<div class="vocab-item__expand-hint">Example || conjugations  ▾</div>' : ''}
+    `;
+
+    if (detailHTML) {
+      const hint   = item.querySelector('.vocab-item__expand-hint');
+      const detail = item.querySelector('.vocab-item__detail');
+      item.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-speak') || e.target.closest('.btn-pin')) return;
+        const isOpen = detail.style.display !== 'none';
+        detail.style.display = isOpen ? 'none' : 'block';
+        hint.textContent = isOpen
+          ? `Example || conjugations  ▾`
+          : `Example || conjugations  ▴`;
+        item.classList.toggle('expanded', !isOpen);
+      });
+    }
+
     const pinBtn = item.querySelector('.btn-pin');
     pinBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -405,10 +459,7 @@ function startSet(id) {
 function startWeakReview() {
   const ww = getWeakWords();
   const words = Object.values(ww);
-  if (words.length === 0) {
-    showToast('No weak words yet! Complete a quiz first.');
-    return;
-  }
+  if (words.length === 0) { showToast('No weak words yet! Complete a quiz first.'); return; }
   currentSet   = { id: 0, name: '🎯 Weak Word Review', vocab: words, color: '#f05a7e' };
   isWeakReview = true;
   isPinnedQuiz = false;
@@ -429,7 +480,6 @@ function initQuizScreen() {
   document.getElementById('mode-type').classList.toggle('active', quizMode === 'type');
   document.getElementById('q-limit').value = String(questionLimit);
 
-  // Hide pin-after row until an answer is given
   document.getElementById('quiz-pin-row').style.display = 'none';
 }
 
@@ -467,7 +517,6 @@ function loadQuestion() {
   const q     = questions[qi];
   if (!q) return;
 
-  // Hide pin-after row for new question
   document.getElementById('quiz-pin-row').style.display = 'none';
 
   quizDirection = directionMode === 'random'
@@ -508,7 +557,6 @@ function loadQuestion() {
   document.getElementById('feedback').textContent = '';
   document.getElementById('btn-next').style.display = 'none';
 
-  // Update top pin button state
   refreshQuizPinUI();
 
   const pool   = currentSet.vocab.filter(w => quizDirection === 'kr2en' ? w.en !== q.en : w.k !== q.k);
@@ -524,7 +572,18 @@ function loadQuestion() {
     initTypingInput(q);
   }
 
-  if (soundOn) setTimeout(() => speakCurrentWord(), 300);
+  if (soundOn) {
+    const capturedQi  = qi;
+    const capturedDir = quizDirection;
+    setTimeout(() => {
+      const capturedQ = questions[capturedQi];
+      if (capturedQ) {
+        capturedDir === 'kr2en'
+          ? speakKorean(capturedQ.k)
+          : speakText(capturedQ.en, 'en-US');
+      }
+    }, 300);
+  }
 }
 
 /* ================================================================
@@ -550,13 +609,11 @@ function renderMCQOptions(q, wrongs) {
 function handleMCQAnswer(chosen, correctOpt, q) {
   const buttons = document.querySelectorAll('.opt');
   buttons.forEach(b => { b.disabled = true; });
-
   const isRight = chosen === correctOpt;
   buttons.forEach(b => {
     if (b.textContent === correctOpt) b.classList.add('correct');
     else if (b.textContent === chosen && !isRight) b.classList.add('wrong');
   });
-
   recordAnswer(isRight, q, correctOpt);
 }
 
@@ -592,7 +649,6 @@ function submitTyping() {
   const inputEl   = document.getElementById('type-input');
   inputEl.disabled = true;
   inputEl.classList.add(isRight ? 'correct' : 'wrong');
-
   if (!isRight) document.getElementById('type-hint').textContent = `Answer: ${correctAns}`;
   recordAnswer(isRight, q, correctAns);
 }
@@ -609,8 +665,6 @@ function recordAnswer(isRight, q, correctAns) {
     store.set('studied', store.get('studied', 0) + 1);
     feedback.textContent = '✓ Correct!';
     feedback.style.color = 'var(--green)';
-
-    // Weak words: auto-remove on correct (unchanged behaviour)
     if (isWeakReview) {
       const ww = getWeakWords();
       if (ww[q.k]) {
@@ -619,8 +673,6 @@ function recordAnswer(isRight, q, correctAns) {
         else saveWeakWords(ww);
       }
     }
-    // Pinned quiz: pinned words are NEVER auto-removed — user must unpin manually
-
   } else {
     wrongCount++;
     playSound('wrong');
@@ -636,10 +688,9 @@ function recordAnswer(isRight, q, correctAns) {
   document.getElementById('stat-pct').textContent = `${Math.round(correctCount / answered * 100)}%`;
   document.getElementById('btn-next').style.display = 'block';
 
-  // Show the pin-after row once an answer is given
   const pinRow = document.getElementById('quiz-pin-row');
   pinRow.style.display = 'flex';
-  const pinned = isPinned(q.k);
+  const pinned     = isPinned(q.k);
   const afterBtn   = document.getElementById('btn-pin-after');
   const afterIcon  = document.getElementById('pin-after-icon');
   const afterLabel = document.getElementById('pin-after-label');
@@ -716,6 +767,9 @@ function showResult() {
         const nowPinned = togglePin(w);
         setPinBtnState(pinBtn, nowPinned);
         updatePinnedBanner();
+        document.querySelectorAll(`.result-pin[data-key="${CSS.escape(w.k)}"]`).forEach(b => {
+          setPinBtnState(b, nowPinned);
+        });
       });
 
       wrongItems.appendChild(row);
@@ -730,9 +784,6 @@ function showResult() {
   updateWeakBanner();
   updatePinnedBanner();
   updateHubMeta();
-
-  // Reset pinned quiz flag
-  isPinnedQuiz = false;
 }
 
 /* ================================================================
@@ -741,18 +792,12 @@ function showResult() {
 function saveToLeaderboard() {
   const name = document.getElementById('lb-name').value.trim();
   if (!name) { showToast('Enter your name first!'); return; }
-
   store.set('lastName', name);
-
   const total = questions.length;
   const pct   = Math.round(correctCount / total * 100);
   let lb      = getLeaderboard();
-
-  const alreadyExists = lb.some(e =>
-    e.name === name && e.set === currentSet.name && e.pct === pct
-  );
+  const alreadyExists = lb.some(e => e.name === name && e.set === currentSet.name && e.pct === pct);
   if (alreadyExists) { showToast('⚠️ Score already saved!'); return; }
-
   lb.push({ name, score: correctCount, total, pct, set: currentSet.name, date: new Date().toLocaleDateString() });
   lb.sort((a, b) => b.pct - a.pct || b.score - a.score);
   saveLeaderboard(lb);
@@ -773,9 +818,10 @@ function closeLeaderboard() {
 }
 
 function renderLeaderboard() {
-  const lb       = getLeaderboard();
-  const tabsEl   = document.getElementById('lb-tabs');
-  const filterIds = ['all', ...Array.from({length: 13}, (_, i) => i + 1)];
+  const lb        = getLeaderboard();
+  const tabsEl    = document.getElementById('lb-tabs');
+  const totalSets = SETS.length - 1;
+  const filterIds = ['all', ...Array.from({length: totalSets}, (_, i) => i + 1)];
   const tabLabels = ['All Sets', ...SET_META.slice(1).map(m => `${m.emoji} ${m.name.split(':')[0].trim()}`)];
 
   tabsEl.innerHTML = '';
@@ -800,8 +846,8 @@ function renderLeaderboard() {
 
   filtered.slice(0, 3).forEach((e, i) => {
     const rank      = i + 1;
-    const rankClass = rank === 1 ? 'lb-rank--gold' : rank === 2 ? 'lb-rank--silver' : rank === 3 ? 'lb-rank--bronze' : '';
-    const medal     = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+    const medal     = rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉';
+    const rankClass = rank === 1 ? 'lb-rank--gold' : rank === 2 ? 'lb-rank--silver' : 'lb-rank--bronze';
     const li        = document.createElement('li');
     li.className    = 'lb-item';
     li.innerHTML    = `
@@ -934,9 +980,16 @@ function goHub() {
   buildHub();
 }
 
+/* ================================================================
+   RETRY QUIZ
+================================================================ */
 function retryQuiz() {
-  if (isWeakReview)  { startWeakReview(); return; }
-  if (isPinnedQuiz)  { startPinnedQuiz(); return; }
+  if (isWeakReview) { startWeakReview(); return; }
+  if (isPinnedQuiz) {
+    isPinnedQuiz = false;
+    startPinnedQuiz();
+    return;
+  }
   if (currentSet?.id) { startSet(currentSet.id); return; }
   goHub();
 }
@@ -946,7 +999,14 @@ function retryQuiz() {
 ================================================================ */
 document.addEventListener('keydown', e => {
   const quizEl = document.getElementById('quiz-screen');
-  if (!quizEl.classList.contains('active') || quizMode === 'type') return;
+  if (!quizEl.classList.contains('active')) return;
+
+  if (e.key === 'p' || e.key === 'P') {
+    togglePinCurrentQuestion();
+    return;
+  }
+
+  if (quizMode === 'type') return;
 
   if (e.key === 'ArrowRight' || e.key === ' ') {
     e.preventDefault();
@@ -958,11 +1018,6 @@ document.addEventListener('keydown', e => {
     const opts = document.querySelectorAll('.opt:not(:disabled)');
     const idx  = parseInt(e.key, 10) - 1;
     if (opts[idx]) opts[idx].click();
-  }
-
-  // P key to pin/unpin current question
-  if (e.key === 'p' || e.key === 'P') {
-    togglePinCurrentQuestion();
   }
 });
 
