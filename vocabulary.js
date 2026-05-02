@@ -137,7 +137,6 @@ var vocab1 = [
   {k:"왜냐하면",r:"waenyahamyeon",en:"because",pos:"phrase",ex:"좋아요, 왜냐하면 맛있어요. (I like it because it's delicious.)"},
   {k:"드디어",r:"deudieo",en:"finally",pos:"phrase",ex:"드디어 도착했어요! (We finally arrived!)"},
   {k:"갑자기",r:"gapjagi",en:"suddenly",pos:"phrase",ex:"갑자기 비가 왔어요. (It suddenly rained.)"},
-  var vocab4 = [
   {k:"일자리", r:"iljari", en:"job/work", pos:"noun", ex:"일자리를 찾고 있어요. (I am looking for a job.)"},
   {k:"아르바이트", r:"areubaiteu", en:"part-time job", pos:"noun", ex:"아르바이트를 하고 있어요. (I have a part-time job.)"},
   {k:"월급", r:"wolgeup", en:"salary", pos:"noun", ex:"월급이 적어요. (The salary is low.)"},
@@ -149,19 +148,18 @@ var vocab1 = [
   {k:"진짜", r:"jinjja", en:"really (casual)", pos:"adverb", ex:"진짜 맛있어요! (It's really delicious!)"},
   {k:"약간", r:"yakgan", en:"a little", pos:"adverb", ex:"약간 어려워요. (It's a bit difficult.)"},
   {k:"아마", r:"ama", en:"maybe", pos:"adverb", ex:"아마 갈 거예요. (I will probably go.)"},
-
 ];
 
-];
+
 
 // ================================================================
 // SET 2 — ESSENTIAL WORDS (Family, Body, Objects) - 151 words
 // ================================================================
 var vocab2 = [
   {k:"위", r:"wi", en:"up/above", pos:"noun", ex:"책이 책상 위에 있어요. (The book is on the desk.)"},
-  {k:"아래", r:"arae", en:"down/below", pos:"noun", ex:"고양이가 의자 아래에 있어요. (The cat is under the chair.)"},
-  {k:"안", r:"an", en:"inside", pos:"noun", ex:"가방 안에 있어요. (It's inside the bag.)"},
-  {k:"밖", r:"bak", en:"outside", pos:"noun", ex:"밖에 사람이 많아요. (There are many people outside.)"},
+{k:"아래", r:"arae", en:"down/below", pos:"noun", ex:"고양이가 의자 아래에 있어요. (The cat is under the chair.)"},
+{k:"안", r:"an", en:"inside", pos:"noun", ex:"가방 안에 있어요. (It's inside the bag.)"},
+{k:"밖", r:"bak", en:"outside", pos:"noun", ex:"밖에 사람이 많아요. (There are many people outside.)"},
   {k:"왼쪽", r:"oenjjok", en:"left", pos:"noun", ex:"왼쪽으로 가세요. (Go left.)"},
   {k:"오른쪽", r:"oreunjjok", en:"right", pos:"noun", ex:"오른쪽에 있어요. (It's on the right.)"},
   {k:"앞", r:"ap", en:"front", pos:"noun", ex:"집 앞에 있어요. (It's in front of the house.)"},
