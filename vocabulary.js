@@ -1217,6 +1217,10 @@ var vocab10 = [
   {k:"어떻게 가요",r:"eotteoke gayo",en:"how do I get there",pos:"phrase",ex:"경복궁에 어떻게 가요? (How do I get to Gyeongbokgung?)"},
   {k:"어디예요",r:"eodiyeyo",en:"where is it",pos:"phrase",ex:"화장실이 어디예요? (Where is the restroom?)"},
   {k:"얼마예요",r:"eolmayeyo",en:"how much is it",pos:"phrase",ex:"이 기념품 얼마예요? (How much is this souvenir?)"},
+  {k:"비행기 표", r:"bihaenggi pyo", en:"airplane ticket", pos:"noun", ex:"비행기 표를 예약했어요. (I booked an airplane ticket.)"},
+  {k:"경험", r:"gyeongheom", en:"experience", pos:"noun", ex:"저는 한국에서 일한 경험이 있어요. (I have experience working in Korea.)"},
+{k:"경력", r:"gyeongnyeok", en:"work experience / career", pos:"noun", ex:"저는 2년의 경력이 있어요. (I have 2 years of work experience.)"},
+{k:"경험하다", r:"gyeongheomhada", en:"to experience", pos:"verb", ex:"새로운 문화를 경험하고 싶어요. (I want to experience a new culture.)"},
 ];
 
 // ================================================================
