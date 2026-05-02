@@ -137,12 +137,36 @@ var vocab1 = [
   {k:"왜냐하면",r:"waenyahamyeon",en:"because",pos:"phrase",ex:"좋아요, 왜냐하면 맛있어요. (I like it because it's delicious.)"},
   {k:"드디어",r:"deudieo",en:"finally",pos:"phrase",ex:"드디어 도착했어요! (We finally arrived!)"},
   {k:"갑자기",r:"gapjagi",en:"suddenly",pos:"phrase",ex:"갑자기 비가 왔어요. (It suddenly rained.)"},
+  var vocab4 = [
+  {k:"일자리", r:"iljari", en:"job/work", pos:"noun", ex:"일자리를 찾고 있어요. (I am looking for a job.)"},
+  {k:"아르바이트", r:"areubaiteu", en:"part-time job", pos:"noun", ex:"아르바이트를 하고 있어요. (I have a part-time job.)"},
+  {k:"월급", r:"wolgeup", en:"salary", pos:"noun", ex:"월급이 적어요. (The salary is low.)"},
+  {k:"사장님", r:"sajangnim", en:"boss/owner", pos:"noun", ex:"사장님이 친절해요. (The boss is kind.)"},
+  {k:"직원", r:"jigwon", en:"employee", pos:"noun", ex:"직원이 많아요. (There are many employees.)"},
+  {k:"면접", r:"myeonjeop", en:"interview", pos:"noun", ex:"내일 면접이 있어요. (I have an interview tomorrow.)"},
+  {k:"좀", r:"jom", en:"a bit/please", pos:"adverb", ex:"좀 도와주세요. (Please help me.)"},
+  {k:"그냥", r:"geunyang", en:"simply/just", pos:"adverb", ex:"그냥 집에 있어요. (I just stay home.)"},
+  {k:"진짜", r:"jinjja", en:"really (casual)", pos:"adverb", ex:"진짜 맛있어요! (It's really delicious!)"},
+  {k:"약간", r:"yakgan", en:"a little", pos:"adverb", ex:"약간 어려워요. (It's a bit difficult.)"},
+  {k:"아마", r:"ama", en:"maybe", pos:"adverb", ex:"아마 갈 거예요. (I will probably go.)"},
+
+];
+
 ];
 
 // ================================================================
 // SET 2 — ESSENTIAL WORDS (Family, Body, Objects) - 151 words
 // ================================================================
 var vocab2 = [
+  {k:"위", r:"wi", en:"up/above", pos:"noun", ex:"책이 책상 위에 있어요. (The book is on the desk.)"},
+  {k:"아래", r:"arae", en:"down/below", pos:"noun", ex:"고양이가 의자 아래에 있어요. (The cat is under the chair.)"},
+  {k:"안", r:"an", en:"inside", pos:"noun", ex:"가방 안에 있어요. (It's inside the bag.)"},
+  {k:"밖", r:"bak", en:"outside", pos:"noun", ex:"밖에 사람이 많아요. (There are many people outside.)"},
+  {k:"왼쪽", r:"oenjjok", en:"left", pos:"noun", ex:"왼쪽으로 가세요. (Go left.)"},
+  {k:"오른쪽", r:"oreunjjok", en:"right", pos:"noun", ex:"오른쪽에 있어요. (It's on the right.)"},
+  {k:"앞", r:"ap", en:"front", pos:"noun", ex:"집 앞에 있어요. (It's in front of the house.)"},
+  {k:"뒤", r:"dwi", en:"behind", pos:"noun", ex:"건물 뒤에 있어요. (It's behind the building.)"},
+  {k:"근처", r:"geuncheo", en:"nearby", pos:"noun", ex:"근처에 카페가 있어요. (There is a cafe nearby.)"},
   {k:"남편",r:"nampyeon",en:"husband",pos:"noun",ex:"남편이 요리를 잘해요. (My husband cooks well.)"},
   {k:"아내",r:"anae",en:"wife",pos:"noun",ex:"아내와 함께 여행을 가요. (I travel together with my wife.)"},
   {k:"아들",r:"adeul",en:"son",pos:"noun",ex:"아들이 학교에 다녀요. (My son attends school.)"},
@@ -372,6 +396,27 @@ var vocab3 = [
   {k:"출발하다",r:"chulbalhada",en:"to depart",pos:"verb",conj:{past:"출발했어요 (chulbalhaesseoyo)",present:"출발해요 (chulbalhaeyo)",future:"출발할 거예요 (chulbalhal geoyeyo)"},ex:"7시에 출발해요. (I depart at 7 o'clock.)"},
   {k:"예약하다",r:"yeyakhada",en:"to reserve/book",pos:"verb",conj:{past:"예약했어요 (yeyakhaesseoyo)",present:"예약해요 (yeyakhaeyo)",future:"예약할 거예요 (yeyakhal geoyeyo)"},ex:"식당을 예약해요. (I book a restaurant.)"},
   {k:"환승하다",r:"hwanseunghada",en:"to transfer (transit)",pos:"verb",conj:{past:"환승했어요 (hwanseunghaesseoyo)",present:"환승해요 (hwanseunghaeyo)",future:"환승할 거예요 (hwanseunghal geoyeyo)"},ex:"2호선에서 환승해요. (I transfer on Line 2.)"},
+  {k:"하다", r:"hada", en:"to do", pos:"verb", conj:{past:"했어요 (haesseoyo)",present:"해요 (haeyo)",future:"할 거예요 (hal geoyeyo)"}, ex:"숙제를 해요. (I do homework.)"},
+
+{k:"가다", r:"gada", en:"to go", pos:"verb", conj:{past:"갔어요 (gasseoyo)",present:"가요 (gayo)",future:"갈 거예요 (gal geoyeyo)"}, ex:"학교에 가요. (I go to school.)"},
+
+{k:"오다", r:"oda", en:"to come", pos:"verb", conj:{past:"왔어요 (wasseoyo)",present:"와요 (wayo)",future:"올 거예요 (ol geoyeyo)"}, ex:"집에 와요. (I come home.)"},
+
+{k:"보다", r:"boda", en:"to see/watch", pos:"verb", conj:{past:"봤어요 (bwasseoyo)",present:"봐요 (bwayo)",future:"볼 거예요 (bol geoyeyo)"}, ex:"영화를 봐요. (I watch a movie.)"},
+
+{k:"먹다", r:"meokda", en:"to eat", pos:"verb", conj:{past:"먹었어요 (meogeosseoyo)",present:"먹어요 (meogeoyo)",future:"먹을 거예요 (meogeul geoyeyo)"}, ex:"밥을 먹어요. (I eat rice.)"},
+
+{k:"마시다", r:"masida", en:"to drink", pos:"verb", conj:{past:"마셨어요 (masyeosseoyo)",present:"마셔요 (masyeoyo)",future:"마실 거예요 (masil geoyeyo)"}, ex:"물을 마셔요. (I drink water.)"},
+
+{k:"일하다", r:"ilhada", en:"to work", pos:"verb", conj:{past:"일했어요 (ilhaesseoyo)",present:"일해요 (ilhaeyo)",future:"일할 거예요 (ilhal geoyeyo)"}, ex:"회사에서 일해요. (I work at a company.)"},
+ {k:"구하다", r:"guhada", en:"to look for (a job)", pos:"verb", conj:{past:"구했어요 (guhaesseoyo)",present:"구해요 (guhaeyo)",future:"구할 거예요 (guhal geoyeyo)"}, ex:"일자리를 구해요. (I look for a job.)"},
+
+{k:"지원하다", r:"jiwonhada", en:"to apply (for a job)", pos:"verb", conj:{past:"지원했어요 (jiwonhaesseoyo)",present:"지원해요 (jiwonhaeyo)",future:"지원할 거예요 (jiwonhal geoyeyo)"}, ex:"회사에 지원해요. (I apply to a company.)"},
+
+{k:"배우다", r:"baeuda", en:"to learn", pos:"verb", conj:{past:"배웠어요 (baewosseoyo)",present:"배워요 (baewoyo)",future:"배울 거예요 (baeul geoyeyo)"}, ex:"한국어를 배워요. (I learn Korean.)"},
+
+{k:"가르치다", r:"gareuchida", en:"to teach", pos:"verb", conj:{past:"가르쳤어요 (gareuchyeosseoyo)",present:"가르쳐요 (gareuchyeoyo)",future:"가르칠 거예요 (gareuchil geoyeyo)"}, ex:"학생을 가르쳐요. (I teach students.)"},
+
 ];
 
 // ================================================================
