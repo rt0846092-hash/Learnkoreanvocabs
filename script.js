@@ -1029,7 +1029,40 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeLeaderboard();
 });
 
+function createSnow() {
+  const container = document.getElementById('snow-container');
+  if (!container) return;
+  
+  const layers = [
+    { count: 25,  sizeMin: 3,  sizeMax: 5,  durMin: 3,  durMax: 5,  class: 'snowflake--near', drift: 40 },
+    { count: 45,  sizeMin: 2,  sizeMax: 3,  durMin: 5,  durMax: 8,  class: 'snowflake--mid',  drift: 25 },
+    { count: 60,  sizeMin: 1,  sizeMax: 2,  durMin: 8,  durMax: 14, class: 'snowflake--far',  drift: 15 },
+  ];
+  
+  layers.forEach(layer => {
+    for (let i = 0; i < layer.count; i++) {
+      const flake = document.createElement('div');
+      flake.classList.add('snowflake', layer.class);
+      
+      const size = Math.random() * (layer.sizeMax - layer.sizeMin) + layer.sizeMin;
+      flake.style.width = size + 'px';
+      flake.style.height = size + 'px';
+      flake.style.left = Math.random() * 100 + '%';
+      
+      const duration = Math.random() * (layer.durMax - layer.durMin) + layer.durMin;
+      flake.style.animationDuration = duration + 's';
+      flake.style.animationDelay = Math.random() * 10 + 's';
+      
+      const drift = (Math.random() - 0.5) * layer.drift;
+      flake.style.setProperty('--drift', drift + 'px');
+      
+      container.appendChild(flake);
+    }
+  });
+}
+
 /* ================================================================
    START APP
 ================================================================ */
+createSnow(); // ADD THIS LINE
 init();
