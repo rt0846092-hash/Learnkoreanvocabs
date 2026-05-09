@@ -17,6 +17,11 @@ let audioCtx      = null;
 let questionLimit = 0;
 
 /* ================================================================
+   PRONUNCIATION SPEED  (0.5 = slow · 0.85 = normal · 1.4 = fast)
+================================================================ */
+let speechRate = 0.85;
+
+/* ================================================================
    FLASHCARD STATE
 ================================================================ */
 let flashFlipped = false;
@@ -35,6 +40,9 @@ const store = {
     try { localStorage.setItem('kq_' + key, JSON.stringify(val)); } catch {}
   },
 };
+
+// Load saved speed after store is defined
+speechRate = parseFloat(store.get('speechRate', 0.85));
 
 /* ================================================================
    SET PROGRESS TRACKING
@@ -162,6 +170,7 @@ function startPinnedStudy() {
   document.getElementById('study-title').textContent = '📌 Pinned Words';
   document.getElementById('study-search').value = '';
   renderStudyList(words);
+  renderSpeedControl();
 }
 
 function startPinnedQuiz() {
@@ -313,6 +322,7 @@ function startStudy(id) {
   document.getElementById('study-title').textContent = currentSet.name;
   document.getElementById('study-search').value = '';
   renderStudyList(currentSet.vocab);
+  renderSpeedControl();
 }
 
 function filterStudy() {
@@ -322,6 +332,52 @@ function filterStudy() {
     w.k.includes(q) || w.en.toLowerCase().includes(q) || (w.r && w.r.toLowerCase().includes(q))
   );
   renderStudyList(filtered);
+}
+
+/* ================================================================
+   SPEED CONTROL — injects once below the legend row
+================================================================ */
+function renderSpeedControl() {
+  if (document.getElementById('speed-control')) return;
+
+  const legend = document.querySelector('.study__legend');
+  if (!legend) return;
+
+  const wrapper = document.createElement('div');
+  wrapper.id = 'speed-control';
+  wrapper.className = 'speed-control';
+  wrapper.innerHTML = `
+    <span class="speed-control__label">🔊 Speed</span>
+    <div class="speed-control__track">
+      <span class="speed-control__tick">🐢</span>
+      <input
+        class="speed-control__slider"
+        id="speed-slider"
+        type="range"
+        min="0.5"
+        max="1.4"
+        step="0.1"
+        value="${speechRate}"
+        aria-label="Pronunciation speed"
+      />
+      <span class="speed-control__tick">🐇</span>
+    </div>
+    <span class="speed-control__val" id="speed-val">${speedLabel(speechRate)}</span>
+  `;
+
+  legend.insertAdjacentElement('afterend', wrapper);
+
+  document.getElementById('speed-slider').addEventListener('input', e => {
+    speechRate = parseFloat(e.target.value);
+    store.set('speechRate', speechRate);
+    document.getElementById('speed-val').textContent = speedLabel(speechRate);
+  });
+}
+
+function speedLabel(rate) {
+  if (rate <= 0.6)  return 'Slow';
+  if (rate <= 0.95) return 'Normal';
+  return 'Fast';
 }
 
 /* ================================================================
@@ -335,6 +391,10 @@ function setPinBtnState(btn, pinned) {
 
 /* ================================================================
    RENDER STUDY LIST
+   Changes:
+   · Korean word is tappable — click speaks it (stops expand)
+   · Expanding a card auto-pronounces the Korean word
+   · 🔊 button still works independently
 ================================================================ */
 function renderStudyList(list) {
   const grid    = document.getElementById('vocab-grid');
@@ -384,7 +444,13 @@ function renderStudyList(list) {
     item.innerHTML = `
       <div class="vocab-item__main">
         <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
-          <span class="vocab-item__korean">${w.k}</span>
+          <span
+            class="vocab-item__korean vocab-item__korean--tappable"
+            role="button"
+            tabindex="0"
+            aria-label="Hear ${w.k}"
+            title="Tap to hear pronunciation"
+          >${w.k}</span>
           ${isWeak ? '<span class="vocab-item__weak" title="Weak word">🎯</span>' : ''}
         </div>
         <div class="vocab-item__right">
@@ -393,7 +459,7 @@ function renderStudyList(list) {
           <div class="vocab-item__pos"><span class="badge badge--${w.pos === 'adverb' ? 'adv' : w.pos}">${w.pos}</span></div>
         </div>
         <div class="vocab-item__btns">
-          <button class="btn-speak" onclick="speakKorean('${w.k.replace(/'/g, "\\'")}');event.stopPropagation()" aria-label="Hear ${w.k}">🔊</button>
+          <button class="btn-speak" aria-label="Hear ${w.k}">🔊</button>
           <button class="btn-pin ${pinned ? 'pinned' : ''}" data-key="${w.k.replace(/"/g, '&quot;')}" aria-label="${pinned ? 'Unpin' : 'Pin'} ${w.k}" title="${pinned ? 'Unpin' : 'Pin'} this word">${pinned ? '📌' : '📍'}</button>
         </div>
       </div>
@@ -401,25 +467,54 @@ function renderStudyList(list) {
       ${detailHTML ? '<div class="vocab-item__expand-hint">Example || conjugations  ▾</div>' : ''}
     `;
 
+    // ── 🔊 Speak button ───────────────────────────────────────────
+    item.querySelector('.btn-speak').addEventListener('click', e => {
+      e.stopPropagation();
+      speakKorean(w.k);
+    });
+
+    // ── Tap the Korean word → pronounce (don't expand card) ───────
+    const koreanEl = item.querySelector('.vocab-item__korean--tappable');
+    koreanEl.addEventListener('click', e => {
+      e.stopPropagation();
+      speakKorean(w.k);
+    });
+    koreanEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.stopPropagation();
+        speakKorean(w.k);
+      }
+    });
+
+    // ── Tap rest of card → toggle expand + auto-pronounce ─────────
     if (detailHTML) {
       const hint   = item.querySelector('.vocab-item__expand-hint');
       const detail = item.querySelector('.vocab-item__detail');
-      item.addEventListener('click', (e) => {
-        if (e.target.closest('.btn-speak') || e.target.closest('.btn-pin')) return;
+
+      item.addEventListener('click', e => {
+        // Ignore clicks on interactive children
+        if (
+          e.target.closest('.btn-speak') ||
+          e.target.closest('.btn-pin') ||
+          e.target.closest('.vocab-item__korean--tappable')
+        ) return;
+
         const isOpen = detail.style.display !== 'none';
         detail.style.display = isOpen ? 'none' : 'block';
-        hint.textContent = isOpen
-          ? `Example || conjugations  ▾`
-          : `Example || conjugations  ▴`;
+        hint.textContent     = isOpen ? 'Example || conjugations  ▾' : 'Example || conjugations  ▴';
         item.classList.toggle('expanded', !isOpen);
+
+        // Auto-pronounce only when opening
+        if (!isOpen) speakKorean(w.k);
       });
     }
 
-    const pinBtn = item.querySelector('.btn-pin');
-    pinBtn.addEventListener('click', (e) => {
+    // ── Pin button ─────────────────────────────────────────────────
+    item.querySelector('.btn-pin').addEventListener('click', e => {
       e.stopPropagation();
       const nowPinned = togglePin(w);
-      setPinBtnState(pinBtn, nowPinned);
+      setPinBtnState(item.querySelector('.btn-pin'), nowPinned);
       updatePinnedBanner();
     });
 
@@ -542,7 +637,6 @@ function loadQuestion() {
   const dirBadge = document.getElementById('dir-badge');
   const wordEl   = document.getElementById('q-word');
 
-  // In flash mode, we hide the q-word element — the card handles everything
   if (quizMode === 'flash') {
     wordEl.style.display = 'none';
     document.getElementById('q-rom').style.display = 'none';
@@ -703,7 +797,6 @@ function initFlashcard(q) {
       <div class="flash-romanization">${q.r || ''}</div>
       <div class="flash-tap-hint">Tap to flip</div>`;
     backContent.innerHTML = `
-      
       <div class="flash-main-answer" style="color:${currentSet.color}">${q.en}</div>
       <div class="flash-back-pos"><span class="badge badge--${q.pos === 'adverb' ? 'adv' : q.pos || 'noun'}">${q.pos || 'noun'}</span></div>
       ${q.ex ? `<div class="flash-example">${q.ex}</div>` : ''}
@@ -947,7 +1040,7 @@ function renderLeaderboard() {
 }
 
 /* ================================================================
-   SPEECH SYNTHESIS
+   SPEECH SYNTHESIS — uses live speechRate variable
 ================================================================ */
 function speakCurrentWord() {
   if (!questions[qi]) return;
@@ -963,7 +1056,7 @@ function speakText(text, lang) {
   window.speechSynthesis.cancel();
   const u   = new SpeechSynthesisUtterance(text);
   u.lang    = lang;
-  u.rate    = 0.85;
+  u.rate    = speechRate;   // ← live speed from slider
   u.pitch   = 1;
   window.speechSynthesis.speak(u);
 }
@@ -1058,6 +1151,10 @@ function showScreen(id) {
 }
 
 function goHub() {
+  // Remove speed control so it re-renders fresh on next study visit
+  const sc = document.getElementById('speed-control');
+  if (sc) sc.remove();
+
   showScreen('hub-screen');
   updateHubMeta();
   updateWeakBanner();
@@ -1091,13 +1188,12 @@ document.addEventListener('keydown', e => {
     return;
   }
 
-  // Flashcard: Space/Enter toggles flip
   if (quizMode === 'flash') {
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
       flipCard();
     }
-    if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') ) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
       e.preventDefault();
       const nb = document.getElementById('btn-next');
       if (nb.style.display !== 'none') nextQuestion();
