@@ -17,6 +17,11 @@ let audioCtx      = null;
 let questionLimit = 0;
 
 /* ================================================================
+   FLASHCARD STATE
+================================================================ */
+let flashFlipped = false;
+
+/* ================================================================
    STORAGE HELPERS
 ================================================================ */
 const store = {
@@ -197,7 +202,7 @@ function getTotalScore()    { return store.get('totalScore', 0); }
 function addTotalScore(pts) { store.set('totalScore', getTotalScore() + pts); }
 
 /* ================================================================
-   DYNAMIC TOTAL WORD COUNT — uses SETS.length dynamically
+   DYNAMIC TOTAL WORD COUNT
 ================================================================ */
 function getTotalWordCount() {
   let total = 0;
@@ -208,13 +213,13 @@ function getTotalWordCount() {
 }
 
 /* ================================================================
-   HUB META — dynamic set count from SETS array
+   HUB META
 ================================================================ */
 function updateHubMeta() {
   const s       = getStreak();
   const studied = store.get('studied', 0);
   const total   = getTotalWordCount();
-  const setCount = SETS.length - 1; // exclude the null at index 0
+  const setCount = SETS.length - 1;
   document.getElementById('streak-txt').textContent      = `${s.count} day streak`;
   document.getElementById('total-score-txt').textContent = `${getTotalScore()} pts`;
   const roundedTotal = Math.floor(total / 100) * 100;
@@ -236,22 +241,22 @@ function buildHub() {
 
   const SET_DESC = [
     null,
-    'Core words every learner needs first',         // 1
-    'Family, body, daily objects & colors',         // 2
-    '{n} essential Korean verbs',                   // 3
-    'Food, cooking, restaurant terms',              // 4
-    'Nature, weather, animals, technology',         // 5
-    'Education, careers, medicine',                 // 6
-    'Culture, sports, furniture, transport',        // 7
-    'Commerce, emotions, hobbies, routines',        // 8
-    'Meetings, projects, business terms',           // 9
-    'Travel, hotels, airports, sightseeing',        // 10
-    'Internet, apps, programming, devices',         // 11
-    'Symptoms, treatments, medicine',               // 12
-    'Climate, sustainability, ecology',             // 13
+    'Core words every learner needs first',
+    'Family, body, daily objects & colors',
+    '{n} essential Korean verbs',
+    'Food, cooking, restaurant terms',
+    'Nature, weather, animals, technology',
+    'Education, careers, medicine',
+    'Culture, sports, furniture, transport',
+    'Commerce, emotions, hobbies, routines',
+    'Meetings, projects, business terms',
+    'Travel, hotels, airports, sightseeing',
+    'Internet, apps, programming, devices',
+    'Symptoms, treatments, medicine',
+    'Climate, sustainability, ecology',
   ];
 
-  const totalSets = SETS.length - 1; // dynamic: works for any number of sets
+  const totalSets = SETS.length - 1;
 
   for (let i = 1; i <= totalSets; i++) {
     const m        = SET_META[i];
@@ -478,6 +483,7 @@ function initQuizScreen() {
 
   document.getElementById('mode-mcq').classList.toggle('active', quizMode === 'mcq');
   document.getElementById('mode-type').classList.toggle('active', quizMode === 'type');
+  document.getElementById('mode-flash').classList.toggle('active', quizMode === 'flash');
   document.getElementById('q-limit').value = String(questionLimit);
 
   document.getElementById('quiz-pin-row').style.display = 'none';
@@ -490,6 +496,7 @@ function setMode(m) {
   quizMode = m;
   document.getElementById('mode-mcq').classList.toggle('active', m === 'mcq');
   document.getElementById('mode-type').classList.toggle('active', m === 'type');
+  document.getElementById('mode-flash').classList.toggle('active', m === 'flash');
   if (questions.length > 0 && qi < questions.length) loadQuestion();
 }
 
@@ -535,19 +542,35 @@ function loadQuestion() {
   const dirBadge = document.getElementById('dir-badge');
   const wordEl   = document.getElementById('q-word');
 
-  if (quizDirection === 'kr2en') {
-    dirBadge.textContent  = '🇰🇷 → 🇬🇧';
-    wordEl.className      = 'q-word';
-    wordEl.textContent    = q.k;
-    document.getElementById('q-rom').textContent = q.r || '';
+  // In flash mode, we hide the q-word element — the card handles everything
+  if (quizMode === 'flash') {
+    wordEl.style.display = 'none';
+    document.getElementById('q-rom').style.display = 'none';
+    document.getElementById('q-speak-hint').style.display = 'none';
   } else {
-    dirBadge.textContent  = '🇬🇧 → 🇰🇷';
-    wordEl.className      = 'q-word--english';
-    wordEl.textContent    = q.en;
-    document.getElementById('q-rom').textContent = '';
+    wordEl.style.display = '';
+    document.getElementById('q-rom').style.display = '';
+
+    if (quizDirection === 'kr2en') {
+      dirBadge.textContent  = '🇰🇷 → 🇬🇧';
+      wordEl.className      = 'q-word';
+      wordEl.textContent    = q.k;
+      document.getElementById('q-rom').textContent = q.r || '';
+    } else {
+      dirBadge.textContent  = '🇬🇧 → 🇰🇷';
+      wordEl.className      = 'q-word--english';
+      wordEl.textContent    = q.en;
+      document.getElementById('q-rom').textContent = '';
+    }
+    document.getElementById('q-speak-hint').style.display = 'block';
+    wordEl.style.color = currentSet.color;
   }
-  document.getElementById('q-speak-hint').style.display = 'block';
-  wordEl.style.color = currentSet.color;
+
+  if (quizDirection === 'kr2en') {
+    dirBadge.textContent = '🇰🇷 → 🇬🇧';
+  } else {
+    dirBadge.textContent = '🇬🇧 → 🇰🇷';
+  }
 
   const pos      = (q.pos || 'noun').toLowerCase();
   const posBadge = document.getElementById('pos-badge');
@@ -563,16 +586,23 @@ function loadQuestion() {
   const wrongs = shuffle(pool).slice(0, 3);
 
   if (quizMode === 'mcq') {
-    document.getElementById('options').style.display  = 'grid';
-    document.getElementById('type-wrap').style.display = 'none';
+    document.getElementById('options').style.display   = 'grid';
+    document.getElementById('type-wrap').style.display  = 'none';
+    document.getElementById('flash-wrap').style.display = 'none';
     renderMCQOptions(q, wrongs);
-  } else {
-    document.getElementById('options').style.display  = 'none';
-    document.getElementById('type-wrap').style.display = 'block';
+  } else if (quizMode === 'type') {
+    document.getElementById('options').style.display   = 'none';
+    document.getElementById('type-wrap').style.display  = 'block';
+    document.getElementById('flash-wrap').style.display = 'none';
     initTypingInput(q);
+  } else if (quizMode === 'flash') {
+    document.getElementById('options').style.display   = 'none';
+    document.getElementById('type-wrap').style.display  = 'none';
+    document.getElementById('flash-wrap').style.display = 'block';
+    initFlashcard(q);
   }
 
-  if (soundOn) {
+  if (soundOn && quizMode !== 'flash') {
     const capturedQi  = qi;
     const capturedDir = quizDirection;
     setTimeout(() => {
@@ -651,6 +681,61 @@ function submitTyping() {
   inputEl.classList.add(isRight ? 'correct' : 'wrong');
   if (!isRight) document.getElementById('type-hint').textContent = `Answer: ${correctAns}`;
   recordAnswer(isRight, q, correctAns);
+}
+
+/* ================================================================
+   FLASHCARD MODE
+================================================================ */
+function initFlashcard(q) {
+  flashFlipped = false;
+
+  const inner = document.getElementById('flash-inner');
+  inner.style.transition = 'none';
+  inner.classList.remove('flipped');
+  requestAnimationFrame(() => requestAnimationFrame(() => { inner.style.transition = ''; }));
+
+  const frontContent = document.getElementById('flash-front-content');
+  const backContent  = document.getElementById('flash-back-content');
+
+  if (quizDirection === 'kr2en') {
+    frontContent.innerHTML = `
+      <div class="flash-main-word" style="font-family:var(--korean);color:${currentSet.color}">${q.k}</div>
+      <div class="flash-romanization">${q.r || ''}</div>
+      <div class="flash-tap-hint">Tap to flip</div>`;
+    backContent.innerHTML = `
+      
+      <div class="flash-main-answer" style="color:${currentSet.color}">${q.en}</div>
+      <div class="flash-back-pos"><span class="badge badge--${q.pos === 'adverb' ? 'adv' : q.pos || 'noun'}">${q.pos || 'noun'}</span></div>
+      ${q.ex ? `<div class="flash-example">${q.ex}</div>` : ''}
+      <div class="flash-tap-hint">Tap to flip back</div>`;
+  } else {
+    frontContent.innerHTML = `
+      <div class="flash-main-answer" style="color:${currentSet.color}">${q.en}</div>
+      <div class="flash-tap-hint">Tap to flip</div>`;
+    backContent.innerHTML = `
+      <div class="flash-main-word" style="font-family:var(--korean);color:${currentSet.color}">${q.k}</div>
+      <div class="flash-romanization">${q.r || ''}</div>
+      <div class="flash-back-pos"><span class="badge badge--${q.pos === 'adverb' ? 'adv' : q.pos || 'noun'}">${q.pos || 'noun'}</span></div>
+      ${q.ex ? `<div class="flash-example">${q.ex}</div>` : ''}
+      <div class="flash-tap-hint">Tap to flip back</div>`;
+  }
+
+  document.getElementById('feedback').textContent   = '';
+  document.getElementById('btn-next').style.display = 'block';
+
+  const card = document.getElementById('flash-card');
+  card.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flipCard(); } };
+}
+
+function flipCard() {
+  flashFlipped = !flashFlipped;
+  const inner = document.getElementById('flash-inner');
+  inner.classList.toggle('flipped', flashFlipped);
+
+  if (flashFlipped && soundOn) {
+    const q = questions[qi];
+    if (q) setTimeout(() => speakKorean(q.k), 400);
+  }
 }
 
 /* ================================================================
@@ -1006,6 +1091,20 @@ document.addEventListener('keydown', e => {
     return;
   }
 
+  // Flashcard: Space/Enter toggles flip
+  if (quizMode === 'flash') {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      flipCard();
+    }
+    if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') ) {
+      e.preventDefault();
+      const nb = document.getElementById('btn-next');
+      if (nb.style.display !== 'none') nextQuestion();
+    }
+    return;
+  }
+
   if (quizMode === 'type') return;
 
   if (e.key === 'ArrowRight' || e.key === ' ') {
@@ -1029,33 +1128,36 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeLeaderboard();
 });
 
+/* ================================================================
+   SNOW
+================================================================ */
 function createSnow() {
   const container = document.getElementById('snow-container');
   if (!container) return;
-  
+
   const layers = [
     { count: 25,  sizeMin: 3,  sizeMax: 5,  durMin: 3,  durMax: 5,  class: 'snowflake--near', drift: 40 },
     { count: 45,  sizeMin: 2,  sizeMax: 3,  durMin: 5,  durMax: 8,  class: 'snowflake--mid',  drift: 25 },
     { count: 60,  sizeMin: 1,  sizeMax: 2,  durMin: 8,  durMax: 14, class: 'snowflake--far',  drift: 15 },
   ];
-  
+
   layers.forEach(layer => {
     for (let i = 0; i < layer.count; i++) {
       const flake = document.createElement('div');
       flake.classList.add('snowflake', layer.class);
-      
+
       const size = Math.random() * (layer.sizeMax - layer.sizeMin) + layer.sizeMin;
-      flake.style.width = size + 'px';
+      flake.style.width  = size + 'px';
       flake.style.height = size + 'px';
-      flake.style.left = Math.random() * 100 + '%';
-      
+      flake.style.left   = Math.random() * 100 + '%';
+
       const duration = Math.random() * (layer.durMax - layer.durMin) + layer.durMin;
       flake.style.animationDuration = duration + 's';
-      flake.style.animationDelay = Math.random() * 10 + 's';
-      
+      flake.style.animationDelay    = Math.random() * 10 + 's';
+
       const drift = (Math.random() - 0.5) * layer.drift;
       flake.style.setProperty('--drift', drift + 'px');
-      
+
       container.appendChild(flake);
     }
   });
@@ -1064,5 +1166,5 @@ function createSnow() {
 /* ================================================================
    START APP
 ================================================================ */
-createSnow(); // ADD THIS LINE
+createSnow();
 init();

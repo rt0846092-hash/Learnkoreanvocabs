@@ -133,6 +133,7 @@
       <div class="mode-bar" role="group" aria-label="Quiz settings">
         <button class="btn-mode active" id="mode-mcq"   onclick="setMode('mcq')">🎯 MCQ</button>
         <button class="btn-mode"        id="mode-type"  onclick="setMode('type')">✍️ Type</button>
+        <button class="btn-mode"        id="mode-flash" onclick="setMode('flash')">🃏 Flash</button>
         <div class="mode-bar__divider" aria-hidden="true"></div>
         <button class="btn-mode active" id="dir-random" onclick="setDir('random')">🔀</button>
         <button class="btn-mode"        id="dir-kr2en"  onclick="setDir('kr2en')">🇰🇷→🇬🇧</button>
@@ -179,6 +180,7 @@
           <button class="btn-pin-quiz" id="btn-pin-quiz" onclick="togglePinCurrentQuestion()" aria-label="Pin this word" title="Pin this word">📌</button>
         </div>
 
+        <!-- MCQ / Type: show the word here -->
         <div
           class="q-word"
           id="q-word"
@@ -208,6 +210,26 @@
           <button class="btn-type-submit" onclick="submitTyping()">Check Answer ↵</button>
           <div class="type-hint" id="type-hint" aria-live="polite"></div>
         </div>
+
+        <!-- ===================== FLASHCARD MODE ===================== -->
+        <div class="flash-wrap" id="flash-wrap" style="display:none">
+
+          <!-- The 3D flip card -->
+          <div class="flash-card" id="flash-card" onclick="flipCard()" role="button" tabindex="0" aria-label="Flip card">
+            <div class="flash-inner" id="flash-inner">
+              <!-- FRONT -->
+              <div class="flash-face flash-front" id="flash-front">
+                <div class="flash-face-content" id="flash-front-content"></div>
+              </div>
+              <!-- BACK -->
+              <div class="flash-face flash-back" id="flash-back">
+                <div class="flash-face-content" id="flash-back-content"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- =================== END FLASHCARD MODE =================== -->
 
         <div class="feedback" id="feedback" role="alert" aria-live="polite"></div>
 
