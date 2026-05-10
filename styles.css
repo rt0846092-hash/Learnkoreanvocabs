@@ -1673,3 +1673,124 @@ background: radial-gradient(ellipse at 50% 0%, #230f3b 0%, #07080f 50%, #0e0f0f 
   .weak-banner__actions { width: 100%; justify-content: space-between; }
   .review-btns { display: flex; gap: 10px; }
 }
+
+@media (max-width: 479px) {
+
+  /* Top bar */
+  .quiz__top       { margin-bottom: 8px; gap: 6px; }
+  .quiz__set-label { font-size: 10px; }
+  .btn-back        { padding: 5px 9px; font-size: 10px; }
+  .btn-sound       { padding: 4px 8px; font-size: 11px; }
+
+  /* Mode bar */
+  .mode-bar { padding: 3px; gap: 3px; margin-bottom: 8px; }
+  .btn-mode { font-size: 10px; padding: 5px 3px; min-width: 0; border-radius: 6px; }
+  #q-limit  { font-size: 10px; padding: 5px 20px 5px 6px; border-radius: 8px !important; }
+
+  /* Progress */
+  .progress-bar { margin-bottom: 6px; }
+
+  /* Stats */
+  .stats     { gap: 5px; margin-bottom: 8px; }
+  .stat      { padding: 5px 3px; border-radius: 8px; }
+  .stat__val { font-size: 14px; }
+  .stat__lbl { font-size: 8px; margin-top: 1px; }
+
+  /* Question card */
+  .q-card { padding: 12px; border-radius: 12px; }
+
+  /* Meta row */
+  .q-card__meta { font-size: 10px; gap: 5px; margin-bottom: 2px; }
+  .dir-badge    { font-size: 9px; padding: 3px 8px; }
+  .btn-pin-quiz { font-size: 12px; padding: 3px 7px; }
+
+  /* Question word — Korean */
+  .q-word {
+    font-size: 26px !important;
+    margin: 8px 0 2px;
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  /* Question word — English direction */
+  .q-word--english {
+    font-size: 20px !important;
+    margin: 8px 0 2px;
+  }
+
+  /* Romanization */
+  .q-rom        { font-size: 11px; margin-bottom: 10px; min-height: 14px; }
+  .q-speak-hint { font-size: 10px; margin-bottom: 10px; }
+
+  /* MCQ options */
+  .options { gap: 6px; }
+  .opt {
+    padding: 9px 8px;
+    font-size: 11.5px;
+    border-radius: 9px;
+    line-height: 1.2;
+  }
+
+  /* Typing mode */
+  .type-input      { padding: 10px; font-size: 15px; border-radius: 10px; }
+  .btn-type-submit { padding: 10px; font-size: 12px; margin-top: 6px; border-radius: 9px; }
+  .type-hint       { font-size: 10px; margin-top: 5px; }
+
+  /* Feedback */
+  .feedback { font-size: 11px; margin-top: 6px; min-height: 16px; }
+
+  /* Next button — this is the main fix */
+  .btn-next {
+    padding: 10px;
+    font-size: 12px;
+    margin-top: 6px;
+    border-radius: 9px;
+  }
+
+  /* Pin row */
+  .quiz-pin-row  { margin-top: 5px; }
+  .btn-pin-after { padding: 5px 12px; font-size: 11px; border-radius: 8px; }
+
+  /* Flashcard */
+  .flash-card,
+  .flash-inner,
+  .flash-face     { min-height: 150px; }
+  .flash-face     { padding: 14px 12px; gap: 5px; }
+  .flash-main-word    { font-size: 26px; letter-spacing: 1px; }
+  .flash-main-answer  { font-size: 18px; }
+  .flash-romanization { font-size: 12px; }
+  .flash-tap-hint     { font-size: 9px; }
+  .flash-example      { font-size: 10px; padding-top: 8px; }
+  .flash-btn          { padding: 9px 7px; font-size: 11px; }
+  .flash-btn__icon    { font-size: 17px; }
+  .flash-btn-row      { gap: 8px; }
+
+  /* Result screen */
+  .result__card    { padding: 24px 16px; }
+  .result__emoji   { font-size: 40px; margin-bottom: 10px; }
+  .result__score   { font-size: 48px; }
+  .result__pct     { font-size: 14px; }
+  .result__msg     { font-size: 13px; margin-bottom: 12px; }
+  .result__actions { flex-direction: column; align-items: stretch; }
+  .result__actions button { padding: 10px 14px; font-size: 12px; width: 100%; }
+  .wrong-list            { max-height: 200px; padding: 12px; }
+  .wrong-list__title     { font-size: 10px; margin-bottom: 7px; }
+  .wrong-item__korean    { font-size: 14px; }
+  .wrong-item__english   { font-size: 11px; }
+
+  /* Study screen */
+  .study__search       { font-size: 12px; padding: 7px 12px; }
+  .study__title        { font-size: 15px; }
+  .vocab-item__korean  { font-size: 18px; }
+  .vocab-item__english { font-size: 12px; }
+  .vocab-item__rom     { font-size: 10px; }
+  .vocab-item__main    { padding: 11px 13px; }
+
+  /* Pinned / weak banners */
+  .pinned-banner,
+  .weak-banner          { padding: 12px 14px; margin-top: 10px; }
+  .pinned-banner__title,
+  .weak-banner__title   { font-size: 12px; }
+  .pinned-banner__count,
+  .weak-banner__count   { font-size: 22px; }
+}
