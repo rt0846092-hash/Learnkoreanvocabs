@@ -1674,123 +1674,295 @@ background: radial-gradient(ellipse at 50% 0%, #230f3b 0%, #07080f 50%, #0e0f0f 
   .review-btns { display: flex; gap: 10px; }
 }
 
-@media (max-width: 479px) {
+/* ================================================================
+   MOBILE RESPONSIVE FIX — 300px & 480px BREAKPOINTS
+   Drop this at the END of your existing CSS file,
+   replacing the old @media (max-width: 479px) block entirely.
+================================================================ */
 
-  /* Top bar */
-  .quiz__top       { margin-bottom: 8px; gap: 6px; }
-  .quiz__set-label { font-size: 10px; }
-  .btn-back        { padding: 5px 9px; font-size: 10px; }
-  .btn-sound       { padding: 4px 8px; font-size: 11px; }
+/* ================================================================
+   480px — SMALL PHONES (iPhone SE, older Androids)
+   Uses more generous sizing so nothing feels cramped
+================================================================ */
+@media (max-width: 480px) {
+
+  /* App padding */
+  .app { padding: 14px; }
+
+  /* Hub */
+  .hub__logo  { font-size: 52px; }
+  .hub__title { font-size: 20px; }
+  .hub__sub   { font-size: 13px; }
+
+  /* Set cards */
+  .set-card         { padding: 18px 16px; border-radius: 16px; }
+  .set-card__emoji  { font-size: 30px; }
+  .set-card__name   { font-size: 15px; }
+  .set-card__desc   { font-size: 12px; }
+  .set-card__actions { flex-direction: row; gap: 8px; }
+  .btn-set          { padding: 11px 0; font-size: 13px; }
+
+  /* Banners */
+  .pinned-banner,
+  .weak-banner      { padding: 16px; margin-top: 12px; }
+  .pinned-banner__title,
+  .weak-banner__title { font-size: 14px; }
+  .pinned-banner__sub,
+  .weak-banner__sub   { font-size: 12px; }
+  .pinned-banner__count,
+  .weak-banner__count { font-size: 28px; }
+  .btn-pinned-study,
+  .btn-pinned-quiz  { padding: 9px 16px; font-size: 13px; }
+
+  /* Quiz top bar */
+  .quiz__top       { margin-bottom: 12px; gap: 8px; }
+  .quiz__set-label { font-size: 12px; }
+  .btn-back        { padding: 8px 14px; font-size: 12px; }
+  .btn-sound       { padding: 7px 12px; font-size: 14px; }
 
   /* Mode bar */
-  .mode-bar { padding: 3px; gap: 3px; margin-bottom: 8px; }
-  .btn-mode { font-size: 10px; padding: 5px 3px; min-width: 0; border-radius: 6px; }
-  #q-limit  { font-size: 10px; padding: 5px 20px 5px 6px; border-radius: 8px !important; }
+  .mode-bar  { padding: 5px; gap: 5px; margin-bottom: 12px; }
+  .btn-mode  { font-size: 12px; padding: 8px 6px; border-radius: 8px; }
+  #q-limit   { font-size: 12px; padding: 8px 28px 8px 10px; border-radius: 10px !important; }
 
   /* Progress */
-  .progress-bar { margin-bottom: 6px; }
+  .progress-bar { margin-bottom: 10px; }
 
   /* Stats */
-  .stats     { gap: 5px; margin-bottom: 8px; }
-  .stat      { padding: 5px 3px; border-radius: 8px; }
-  .stat__val { font-size: 14px; }
-  .stat__lbl { font-size: 8px; margin-top: 1px; }
+  .stats     { gap: 8px; margin-bottom: 12px; }
+  .stat      { padding: 10px 6px; border-radius: 10px; }
+  .stat__val { font-size: 20px; }
+  .stat__lbl { font-size: 10px; margin-top: 2px; }
 
   /* Question card */
-  .q-card { padding: 12px; border-radius: 12px; }
-
-  /* Meta row */
-  .q-card__meta { font-size: 10px; gap: 5px; margin-bottom: 2px; }
-  .dir-badge    { font-size: 9px; padding: 3px 8px; }
-  .btn-pin-quiz { font-size: 12px; padding: 3px 7px; }
+  .q-card         { padding: 20px 18px; border-radius: 16px; }
+  .q-card__meta   { font-size: 11px; gap: 6px; margin-bottom: 4px; }
+  .dir-badge      { font-size: 10px; padding: 4px 10px; }
+  .btn-pin-quiz   { font-size: 14px; padding: 4px 10px; }
 
   /* Question word — Korean */
   .q-word {
-    font-size: 26px !important;
-    margin: 8px 0 2px;
-    letter-spacing: 1px;
-    line-height: 1.2;
+    font-size: 38px !important;
+    margin: 16px 0 4px;
+    letter-spacing: 2px;
+    line-height: 1.25;
   }
 
   /* Question word — English direction */
   .q-word--english {
-    font-size: 20px !important;
-    margin: 8px 0 2px;
+    font-size: 28px !important;
+    margin: 16px 0 4px;
   }
 
   /* Romanization */
-  .q-rom        { font-size: 11px; margin-bottom: 10px; min-height: 14px; }
-  .q-speak-hint { font-size: 10px; margin-bottom: 10px; }
+  .q-rom        { font-size: 13px; margin-bottom: 16px; min-height: 16px; }
+  .q-speak-hint { font-size: 12px; margin-bottom: 14px; }
 
   /* MCQ options */
-  .options { gap: 6px; }
+  .options { grid-template-columns: 1fr 1fr; gap: 8px; }
   .opt {
-    padding: 9px 8px;
-    font-size: 11.5px;
-    border-radius: 9px;
-    line-height: 1.2;
+    padding: 13px 12px;
+    font-size: 13px;
+    border-radius: 12px;
+    line-height: 1.35;
   }
 
   /* Typing mode */
-  .type-input      { padding: 10px; font-size: 15px; border-radius: 10px; }
-  .btn-type-submit { padding: 10px; font-size: 12px; margin-top: 6px; border-radius: 9px; }
-  .type-hint       { font-size: 10px; margin-top: 5px; }
+  .type-input      { padding: 14px 16px; font-size: 18px; border-radius: 12px; }
+  .btn-type-submit { padding: 13px; font-size: 14px; margin-top: 8px; border-radius: 11px; }
+  .type-hint       { font-size: 12px; margin-top: 7px; }
 
   /* Feedback */
-  .feedback { font-size: 11px; margin-top: 6px; min-height: 16px; }
+  .feedback { font-size: 13px; margin-top: 10px; min-height: 20px; }
 
-  /* Next button — this is the main fix */
-  .btn-next {
-    padding: 10px;
-    font-size: 12px;
-    margin-top: 6px;
-    border-radius: 9px;
-  }
+  /* Next button */
+  .btn-next { padding: 13px; font-size: 14px; margin-top: 10px; border-radius: 11px; }
 
   /* Pin row */
-  .quiz-pin-row  { margin-top: 5px; }
-  .btn-pin-after { padding: 5px 12px; font-size: 11px; border-radius: 8px; }
+  .quiz-pin-row  { margin-top: 8px; }
+  .btn-pin-after { padding: 8px 16px; font-size: 13px; border-radius: 10px; }
 
   /* Flashcard */
   .flash-card,
   .flash-inner,
-  .flash-face     { min-height: 150px; }
-  .flash-face     { padding: 14px 12px; gap: 5px; }
-  .flash-main-word    { font-size: 26px; letter-spacing: 1px; }
-  .flash-main-answer  { font-size: 18px; }
-  .flash-romanization { font-size: 12px; }
-  .flash-tap-hint     { font-size: 9px; }
-  .flash-example      { font-size: 10px; padding-top: 8px; }
-  .flash-btn          { padding: 9px 7px; font-size: 11px; }
-  .flash-btn__icon    { font-size: 17px; }
-  .flash-btn-row      { gap: 8px; }
+  .flash-face     { min-height: 200px; }
+  .flash-face     { padding: 22px 18px; gap: 8px; }
+  .flash-main-word    { font-size: 38px; letter-spacing: 2px; }
+  .flash-main-answer  { font-size: 26px; }
+  .flash-romanization { font-size: 13px; }
+  .flash-tap-hint     { font-size: 11px; }
+  .flash-example      { font-size: 12px; padding-top: 10px; }
+  .flash-btn          { padding: 12px 10px; font-size: 13px; }
+  .flash-btn__icon    { font-size: 22px; }
+  .flash-btn-row      { gap: 10px; }
 
   /* Result screen */
-  .result__card    { padding: 24px 16px; }
-  .result__emoji   { font-size: 40px; margin-bottom: 10px; }
-  .result__score   { font-size: 48px; }
-  .result__pct     { font-size: 14px; }
-  .result__msg     { font-size: 13px; margin-bottom: 12px; }
+  .result__card    { padding: 36px 24px; }
+  .result__emoji   { font-size: 52px; margin-bottom: 12px; }
+  .result__score   { font-size: 60px; }
+  .result__pct     { font-size: 17px; }
+  .result__msg     { font-size: 15px; margin-bottom: 14px; }
   .result__actions { flex-direction: column; align-items: stretch; }
-  .result__actions button { padding: 10px 14px; font-size: 12px; width: 100%; }
-  .wrong-list            { max-height: 200px; padding: 12px; }
-  .wrong-list__title     { font-size: 10px; margin-bottom: 7px; }
-  .wrong-item__korean    { font-size: 14px; }
-  .wrong-item__english   { font-size: 11px; }
+  .result__actions button { padding: 13px 18px; font-size: 14px; width: 100%; }
+  .wrong-list      { max-height: 220px; padding: 14px; }
+  .wrong-list__title   { font-size: 11px; margin-bottom: 8px; }
+  .wrong-item__korean  { font-size: 16px; }
+  .wrong-item__english { font-size: 12px; }
 
   /* Study screen */
-  .study__search       { font-size: 12px; padding: 7px 12px; }
-  .study__title        { font-size: 15px; }
-  .vocab-item__korean  { font-size: 18px; }
-  .vocab-item__english { font-size: 12px; }
-  .vocab-item__rom     { font-size: 10px; }
-  .vocab-item__main    { padding: 11px 13px; }
+  .study__search       { font-size: 13px; padding: 9px 14px; }
+  .study__title        { font-size: 17px; }
+  .vocab-item__korean  { font-size: 22px; }
+  .vocab-item__english { font-size: 13px; }
+  .vocab-item__rom     { font-size: 11px; }
+  .vocab-item__main    { padding: 14px 15px; }
+}
 
-  /* Pinned / weak banners */
+/* ================================================================
+   300–320px — VERY SMALL PHONES  (no-scroll quiz layout)
+================================================================ */
+@media (max-width: 320px) {
+
+  .app { padding: 8px; }
+
+  /* Hub */
+  .hub__logo  { font-size: 36px; }
+  .hub__title { font-size: 15px; }
+  .hub__sub   { font-size: 11px; }
+  .hub__meta  { gap: 6px; margin: 10px 0 18px; }
+  .meta-pill  { padding: 5px 12px; font-size: 11px; }
+
+  /* Set cards */
+  .set-card         { padding: 11px 10px; border-radius: 12px; }
+  .set-card__emoji  { font-size: 22px; margin-bottom: 5px; }
+  .set-card__name   { font-size: 13px; }
+  .set-card__desc   { font-size: 10.5px; margin-bottom: 8px; }
+  .set-card__actions { flex-direction: column; gap: 5px; }
+  .btn-set          { padding: 8px 0; font-size: 11px; }
+
+  /* Banners */
   .pinned-banner,
-  .weak-banner          { padding: 12px 14px; margin-top: 10px; }
+  .weak-banner         { padding: 10px 11px; margin-top: 8px; flex-direction: column; align-items: flex-start; }
   .pinned-banner__title,
-  .weak-banner__title   { font-size: 12px; }
+  .weak-banner__title  { font-size: 12px; }
+  .pinned-banner__sub,
+  .weak-banner__sub    { font-size: 10.5px; }
   .pinned-banner__count,
-  .weak-banner__count   { font-size: 22px; }
+  .weak-banner__count  { font-size: 20px; }
+  .pinned-banner__actions,
+  .weak-banner__actions { width: 100%; justify-content: space-between; }
+  .btn-pinned-study,
+  .btn-pinned-quiz     { padding: 7px 12px; font-size: 11px; }
+
+  /* ── QUIZ SCREEN — fit everything on screen ── */
+
+  /* Top bar */
+  .quiz__top       { margin-bottom: 5px; gap: 5px; }
+  .quiz__set-label { font-size: 9px; }
+  .btn-back        { padding: 5px 8px; font-size: 9px; }
+  .btn-sound       { padding: 4px 7px; font-size: 11px; }
+
+  /* Mode bar — two rows */
+  .mode-bar  { padding: 3px; gap: 3px; margin-bottom: 6px; flex-wrap: wrap; }
+  .btn-mode  { font-size: 9px; padding: 5px 2px; min-width: 0; flex: 1 1 50px; border-radius: 6px; }
+  #q-limit   { font-size: 9px; padding: 5px 18px 5px 6px; border-radius: 7px !important; flex: 0 0 auto; }
+
+  /* Progress */
+  .progress-bar { margin-bottom: 5px; height: 4px; }
+
+  /* Stats — very tight */
+  .stats     { gap: 4px; margin-bottom: 6px; }
+  .stat      { padding: 4px 2px; border-radius: 7px; }
+  .stat__val { font-size: 13px; }
+  .stat__lbl { font-size: 7.5px; margin-top: 1px; }
+
+  /* Question card — remove most internal padding */
+  .q-card { padding: 10px 10px 10px; border-radius: 11px; }
+
+  /* Meta row */
+  .q-card__meta { font-size: 9px; gap: 4px; margin-bottom: 2px; }
+  .dir-badge    { font-size: 8px; padding: 2px 7px; }
+  .btn-pin-quiz { font-size: 11px; padding: 2px 6px; }
+
+  /* Korean word — readable but compact */
+  .q-word {
+    font-size: 24px !important;
+    margin: 6px 0 2px;
+    letter-spacing: 1px;
+    line-height: 1.15;
+  }
+
+  /* English direction */
+  .q-word--english {
+    font-size: 18px !important;
+    margin: 6px 0 2px;
+  }
+
+  /* Romanization */
+  .q-rom        { font-size: 10px; margin-bottom: 8px; min-height: 12px; }
+  .q-speak-hint { font-size: 9px; margin-bottom: 8px; }
+
+  /* MCQ — single column so options aren't squished */
+  .options { grid-template-columns: 1fr; gap: 5px; }
+  .opt {
+    padding: 8px 10px;
+    font-size: 12px;
+    border-radius: 8px;
+    line-height: 1.2;
+  }
+
+  /* Typing mode */
+  .type-input      { padding: 9px 10px; font-size: 14px; border-radius: 9px; }
+  .btn-type-submit { padding: 9px; font-size: 11px; margin-top: 5px; border-radius: 8px; }
+  .type-hint       { font-size: 9px; margin-top: 4px; }
+
+  /* Feedback */
+  .feedback { font-size: 10px; margin-top: 5px; min-height: 14px; }
+
+  /* Next button */
+  .btn-next {
+    padding: 9px;
+    font-size: 11px;
+    margin-top: 5px;
+    border-radius: 8px;
+  }
+
+  /* Pin row */
+  .quiz-pin-row  { margin-top: 4px; }
+  .btn-pin-after { padding: 5px 10px; font-size: 10px; border-radius: 7px; }
+
+  /* ── FLASHCARD ── */
+  .flash-card,
+  .flash-inner,
+  .flash-face  { min-height: 130px; }
+  .flash-face  { padding: 12px 10px; gap: 4px; }
+  .flash-main-word    { font-size: 24px; letter-spacing: 1px; }
+  .flash-main-answer  { font-size: 18px; }
+  .flash-romanization { font-size: 11px; }
+  .flash-tap-hint     { font-size: 8px; }
+  .flash-example      { font-size: 9.5px; padding-top: 7px; }
+  .flash-btn          { padding: 8px 6px; font-size: 10.5px; }
+  .flash-btn__icon    { font-size: 16px; }
+  .flash-btn-row      { gap: 7px; }
+
+  /* ── RESULT SCREEN ── */
+  .result__card    { padding: 20px 13px; }
+  .result__emoji   { font-size: 34px; margin-bottom: 8px; }
+  .result__score   { font-size: 42px; }
+  .result__pct     { font-size: 12px; }
+  .result__msg     { font-size: 12px; margin-bottom: 10px; }
+  .result__actions { flex-direction: column; align-items: stretch; }
+  .result__actions button { padding: 9px 12px; font-size: 11px; width: 100%; }
+  .wrong-list      { max-height: 160px; padding: 10px; }
+  .wrong-list__title   { font-size: 9px; margin-bottom: 6px; }
+  .wrong-item__korean  { font-size: 13px; }
+  .wrong-item__english { font-size: 10px; }
+
+  /* ── STUDY SCREEN ── */
+  .study__search       { font-size: 11px; padding: 7px 11px; }
+  .study__title        { font-size: 14px; }
+  .vocab-item__korean  { font-size: 18px; }
+  .vocab-item__english { font-size: 11px; }
+  .vocab-item__rom     { font-size: 9.5px; }
+  .vocab-item__main    { padding: 10px 11px; }
 }
