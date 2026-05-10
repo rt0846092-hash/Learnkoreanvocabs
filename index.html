@@ -22,7 +22,7 @@
       <header class="hub__header">
         <div class="hub__logo" aria-label="한국어">한국어</div>
         <h1 class="hub__title">Korean Vocabulary Hub</h1>
-        <p class="hub__sub" id="hub-subtitle">13 quiz sets · 1300+ words total</p>
+        <p class="hub__sub" id="hub-subtitle">13 quiz sets · 1800+ words total</p>
       </header>
 
       <div class="hub__meta" role="region" aria-label="Your stats">
@@ -53,29 +53,29 @@
         </div>
         <div class="pinned-banner__actions">
           <div class="pinned-banner__count" id="pinned-count-hub" aria-live="polite">0</div>
-          <button class="btn-pinned-study" onclick="startPinnedStudy()" aria-label="Study pinned words">📖 Study</button>
-          <button class="btn-pinned-quiz"  onclick="startPinnedQuiz()"  aria-label="Quiz pinned words">🎯 Quiz</button>
+          <btn class="review-btns">
+            <button class="btn-pinned-study" onclick="startPinnedStudy()" aria-label="Study pinned words">📖 Study</button>
+          <button class="btn-pinned-quiz"  onclick="startPinnedQuiz()"  aria-label="Quiz pinned words">🎯 Quiz</button></btn>
         </div>
       </div>
 
       <!-- WEAK WORDS BANNER -->
-      <button
-        class="weak-banner"
-        id="weak-banner"
-        onclick="startWeakReview()"
-        style="display:none"
-        aria-label="Start weak-word review"
-      >
-        <div class="weak-banner__left">
-          <span class="weak-banner__icon" aria-hidden="true">🎯</span>
-          <div>
-            <div class="weak-banner__title">Review Weak Words</div>
-            <div class="weak-banner__sub" id="weak-sub">Words you've missed before</div>
-          </div>
-        </div>
-        <div class="weak-banner__count" id="weak-count-hub" aria-live="polite">0</div>
-      </button>
-
+     <div class="weak-banner" id="weak-banner" style="display:none" aria-label="Weak words">
+  <div class="weak-banner__left">
+    <span class="weak-banner__icon" aria-hidden="true">🎯</span>
+    <div>
+      <div class="weak-banner__title">Review Weak Words</div>
+      <div class="weak-banner__sub" id="weak-sub">Words you've missed before</div>
+    </div>
+  </div>
+  <div class="weak-banner__actions">
+    <div class="weak-banner__count" id="weak-count-hub" aria-live="polite">0</div>
+    <div class="review-btns">
+       <button class="btn-pinned-study" onclick="startWeakStudy()">📖 Study</button>
+    <button class="btn-pinned-quiz" onclick="startWeakReview()" style="background:var(--red);color:#fff">🎯 Quiz</button>
+    </div>
+  </div>
+</div>
     </section>
   </div>
 
@@ -101,7 +101,6 @@
         <span class="study__count" id="study-count" aria-live="polite"></span>
       </div>
 
-      <!-- Study mode legend -->
       <div class="study__legend">
         <span class="study__legend-item">🔊 hear word</span>
         <span class="study__legend-item">📍 pin word</span>
@@ -129,7 +128,6 @@
         >🔊</button>
       </div>
 
-      <!-- Mode / direction toolbar -->
       <div class="mode-bar" role="group" aria-label="Quiz settings">
         <button class="btn-mode active" id="mode-mcq"   onclick="setMode('mcq')">🎯 MCQ</button>
         <button class="btn-mode"        id="mode-type"  onclick="setMode('type')">✍️ Type</button>
@@ -147,12 +145,10 @@
         </select>
       </div>
 
-      <!-- Progress -->
       <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="progress-bar">
         <div class="progress-bar__fill" id="progress-fill"></div>
       </div>
 
-      <!-- Stats -->
       <div class="stats" aria-label="Quiz progress">
         <div class="stat">
           <div class="stat__val" id="stat-question">1/0</div>
@@ -172,7 +168,6 @@
         </div>
       </div>
 
-      <!-- Question card -->
       <div class="q-card" role="main">
         <div class="q-card__meta">
           <span id="dir-badge" class="dir-badge">🇰🇷 → 🇬🇧</span>
@@ -180,7 +175,6 @@
           <button class="btn-pin-quiz" id="btn-pin-quiz" onclick="togglePinCurrentQuestion()" aria-label="Pin this word" title="Pin this word">📌</button>
         </div>
 
-        <!-- MCQ / Type: show the word here -->
         <div
           class="q-word"
           id="q-word"
@@ -193,10 +187,8 @@
         <div class="q-rom" id="q-rom">—</div>
         <div class="q-speak-hint" id="q-speak-hint">🔊 Click word to hear it</div>
 
-        <!-- MCQ options -->
         <div class="options" id="options" role="group" aria-label="Answer choices"></div>
 
-        <!-- Typing mode -->
         <div class="type-wrap" id="type-wrap" style="display:none">
           <label for="type-input" class="sr-only">Type your answer</label>
           <input
@@ -211,29 +203,21 @@
           <div class="type-hint" id="type-hint" aria-live="polite"></div>
         </div>
 
-        <!-- ===================== FLASHCARD MODE ===================== -->
         <div class="flash-wrap" id="flash-wrap" style="display:none">
-
-          <!-- The 3D flip card -->
           <div class="flash-card" id="flash-card" onclick="flipCard()" role="button" tabindex="0" aria-label="Flip card">
             <div class="flash-inner" id="flash-inner">
-              <!-- FRONT -->
               <div class="flash-face flash-front" id="flash-front">
                 <div class="flash-face-content" id="flash-front-content"></div>
               </div>
-              <!-- BACK -->
               <div class="flash-face flash-back" id="flash-back">
                 <div class="flash-face-content" id="flash-back-content"></div>
               </div>
             </div>
           </div>
-
         </div>
-        <!-- =================== END FLASHCARD MODE =================== -->
 
         <div class="feedback" id="feedback" role="alert" aria-live="polite"></div>
 
-        <!-- Pin feedback area (shown after answering) -->
         <div class="quiz-pin-row" id="quiz-pin-row" style="display:none">
           <button class="btn-pin-after" id="btn-pin-after" onclick="togglePinCurrentQuestion()">
             <span id="pin-after-icon">📌</span>
@@ -273,14 +257,20 @@
           <button class="btn-save-lb" onclick="saveToLeaderboard()">Save 🏆</button>
         </div>
 
+        <!-- WRONG LIST WITH STUDY BUTTON INSIDE -->
         <div class="wrong-list" id="wrong-list" style="display:none">
           <div class="wrong-list__title">❌ Missed words (added to review)</div>
           <div id="wrong-items"></div>
+          <!-- STUDY BUTTON INSIDE THE BOX -->
+          <button class="btn-study-missed" onclick="startResultStudy()">📖 Study These Words</button>
         </div>
 
+        <!-- RESULT ACTIONS WITH STUDY BUTTON -->
         <div class="result__actions">
           <button class="btn-retry"  onclick="retryQuiz()">↺ Try Again</button>
           <button class="btn-hub"    onclick="goHub()">All Sets</button>
+          <!-- STUDY MISSED BUTTON -->
+          <button class="btn-study-result" id="btn-study-result" onclick="startResultStudy()" style="display:none">📖 Study Missed</button>
           <button class="btn-review" id="btn-review-missed" onclick="startWeakReview()" style="display:none">🎯 Review Missed</button>
         </div>
       </div>
@@ -288,7 +278,7 @@
     </section>
   </div>
 
-</div><!-- /.app -->
+</div>
 
 <!-- LEADERBOARD MODAL -->
 <div class="modal-overlay hidden" id="lb-modal" role="dialog" aria-modal="true" aria-label="Leaderboard">

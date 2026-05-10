@@ -156,7 +156,20 @@ var vocab1 = [
 // SET 2 — ESSENTIAL WORDS (Family, Body, Objects) - 151 words
 // ================================================================
 var vocab2 = [
+// Numbers & Counting (surprisingly missing)
+{k:"몇",r:"myeot",en:"how many",pos:"phrase",ex:"몇 개예요? (How many are there?)"},
+{k:"하나",r:"hana",en:"one (native Korean)",pos:"noun",ex:"하나 주세요. (Please give me one.)"},
+{k:"둘",r:"dul",en:"two (native Korean)",pos:"noun",ex:"둘 다 주세요. (Please give me both.)"},
+{k:"셋",r:"set",en:"three (native Korean)",pos:"noun",ex:"셋이서 밥 먹어요. (Three of us eat together.)"},
 
+// Reactions to food
+{k:"느끼해요",r:"neukkihaeyo",en:"it's greasy/rich",pos:"phrase",ex:"너무 느끼해요. (It's too greasy.)"},
+{k:"간이 맞다",r:"gani matda",en:"the seasoning is right",pos:"phrase",ex:"간이 딱 맞아요. (The seasoning is just right.)"},
+
+// Very casual daily filler words
+{k:"뭐야",r:"mwoya",en:"what is this (casual)",pos:"phrase",ex:"뭐야, 왜 이래요? (What is this, why are you like this?)"},
+{k:"왜 이래요",r:"wae iraeyo",en:"why are you like this",pos:"phrase",ex:"왜 이래요, 괜찮아요? (Why are you like this, are you okay?)"},
+{k:"됐어요",r:"dwaesseoyo",en:"it's done/never mind/enough",pos:"phrase",ex:"됐어요, 신경 쓰지 마세요. (Never mind, don't worry about it.)"},
   {k:"영화관", r:"yeonghwagwan", en:"movie theater", pos:"noun", ex:"주말에 영화관에 갔어요. (I went to the movie theater on the weekend.)"},
 {k:"공원", r:"gongwon", en:"park", pos:"noun", ex:"친구와 공원에서 산책했어요. (I took a walk in the park with my friend.)"},
 {k:"역", r:"yeok", en:"station", pos:"noun", ex:"부산역은 사람이 많아요. (Busan Station is crowded.)"},
@@ -1094,6 +1107,109 @@ var vocab7 = [
 // SET 8 — SHOPPING & DAILY LIFE (106 words)
 // ================================================================
 var vocab8 = [
+  // Shopping Talk
+{k:"좀 깎아 주세요",r:"jom kkakka juseyo",en:"please give me a discount",pos:"phrase",ex:"좀 깎아 주세요! (Please give me a discount!)"},
+{k:"포장해 주세요",r:"pojanghae juseyo",en:"please wrap it/pack it",pos:"phrase",ex:"선물이에요, 포장해 주세요. (It's a gift, please wrap it.)"},
+{k:"입어봐도 돼요?",r:"ibeobbwado dwaeyo",en:"can I try it on?",pos:"phrase",ex:"이 옷 입어봐도 돼요? (Can I try this on?)"},
+{k:"다른 색 있어요?",r:"dareun saek isseoyo",en:"do you have another color?",pos:"phrase",ex:"다른 색 있어요? (Do you have another color?)"},
+{k:"사이즈",r:"saijeu",en:"size",pos:"noun",ex:"사이즈가 뭐예요? (What size is it?)"},
+
+// Phone & Messaging
+{k:"문자",r:"munja",en:"text message",pos:"noun",ex:"문자 보냈어요. (I sent a text message.)"},
+{k:"부재중",r:"bujaejung",en:"missed call",pos:"noun",ex:"부재중 전화가 있어요. (There is a missed call.)"},
+{k:"전화 끊다",r:"jeonhwa kkeunda",en:"to hang up",pos:"verb",conj:{past:"끊었어요 (kkeueosseoyo)",present:"끊어요 (kkeueoyo)",future:"끊을 거예요 (kkeueul geoyeyo)"},ex:"전화를 끊었어요. (I hung up the phone.)"},
+{k:"통화 중",r:"tonghwa jung",en:"on the phone/line busy",pos:"phrase",ex:"지금 통화 중이에요. (I'm on the phone right now.)"},
+{k:"카카오톡",r:"kakaoток",en:"KakaoTalk",pos:"noun",ex:"카카오톡으로 연락해요. (I contact through KakaoTalk.)"},
+
+// Directions (very daily)
+{k:"똑바로",r:"ttokbaro",en:"straight ahead",pos:"adverb",ex:"똑바로 가세요. (Go straight ahead.)"},
+{k:"모퉁이",r:"motungi",en:"corner",pos:"noun",ex:"모퉁이에서 왼쪽으로 가요. (Turn left at the corner.)"},
+{k:"골목",r:"golmok",en:"alley/side street",pos:"noun",ex:"골목으로 들어가세요. (Go into the alley.)"},
+{k:"건너편",r:"geonneopyeon",en:"opposite side/across",pos:"noun",ex:"건너편에 있어요. (It's on the opposite side.)"},
+
+// Weather Daily Talk
+{k:"덥다",r:"deodda",en:"hot (weather)",pos:"adj",ex:"오늘 너무 더워요. (It's so hot today.)"},
+{k:"춥다",r:"chupda",en:"cold (weather)",pos:"adj",ex:"밖이 너무 추워요. (It's so cold outside.)"},
+{k:"흐리다",r:"heurida",en:"cloudy",pos:"adj",ex:"오늘 하늘이 흐려요. (The sky is cloudy today.)"},
+{k:"비가 오다",r:"biga oda",en:"to rain",pos:"phrase",ex:"비가 많이 와요. (It's raining a lot.)"},
+{k:"눈이 오다",r:"nuni oda",en:"to snow",pos:"phrase",ex:"눈이 펑펑 와요. (It's snowing heavily.)"},
+
+// Eating Out extras
+{k:"맵지 않게 해주세요",r:"maepji anke haejuseyo",en:"please make it not spicy",pos:"phrase",ex:"맵지 않게 해주세요. (Please make it not spicy.)"},
+{k:"리필",r:"ripil",en:"refill",pos:"noun",ex:"리필 돼요? (Can I get a refill?)"},
+{k:"포장 용기",r:"pojang yonggi",en:"takeout container",pos:"noun",ex:"포장 용기에 담아 주세요. (Please put it in a takeout container.)"},
+{k:"물 좀 주세요",r:"mul jom juseyo",en:"please give me some water",pos:"phrase",ex:"저기요, 물 좀 주세요. (Excuse me, please give me some water.)"},
+
+// Apartment & Living
+{k:"월세",r:"wolse",en:"monthly rent",pos:"noun",ex:"월세가 얼마예요? (How much is the monthly rent?)"},
+{k:"전세",r:"jeonse",en:"lump-sum deposit rental",pos:"noun",ex:"전세로 살고 있어요. (I live on a jeonse contract.)"},
+{k:"관리비",r:"gwallibи",en:"maintenance fee",pos:"noun",ex:"관리비가 포함돼요? (Is the maintenance fee included?)"},
+{k:"이사하다",r:"isahada",en:"to move (house)",pos:"verb",conj:{past:"이사했어요 (isahaesseoyo)",present:"이사해요 (isahaeyo)",future:"이사할 거예요 (isahal geoyeyo)"},ex:"다음 달에 이사해요. (I move next month.)"},
+{k:"집주인",r:"jipjuin",en:"landlord",pos:"noun",ex:"집주인한테 연락했어요. (I contacted the landlord.)"},
+
+// Health Daily
+{k:"약 먹다",r:"yak meokda",en:"to take medicine",pos:"phrase",ex:"밥 먹고 약 먹어요. (I take medicine after eating.)"},
+{k:"주사 맞다",r:"jusa matda",en:"to get a shot",pos:"phrase",ex:"독감 주사 맞았어요. (I got a flu shot.)"},
+{k:"체온",r:"cheon",en:"body temperature",pos:"noun",ex:"체온이 38도예요. (My body temperature is 38 degrees.)"},
+{k:"소화가 안 돼요",r:"sohwaga an dwaeyo",en:"I have indigestion",pos:"phrase",ex:"많이 먹어서 소화가 안 돼요. (I ate too much and have indigestion.)"},
+  // Very Common Responses
+{k:"그래요",r:"geuraeyo",en:"okay/sure/really",pos:"phrase",ex:"그래요, 같이 가요! (Okay, let's go together!)"},
+{k:"아 그렇구나",r:"a geureokguna",en:"oh I see (casual)",pos:"phrase",ex:"아 그렇구나, 몰랐어요. (Oh I see, I didn't know.)"},
+{k:"잘됐다",r:"jaldwaetda",en:"that's great/worked out well",pos:"phrase",ex:"시험 합격했어요? 잘됐다! (You passed the exam? That's great!)"},
+{k:"어쩔 수 없어요",r:"eojjeol su eopseoyo",en:"can't be helped/no choice",pos:"phrase",ex:"비가 오네요, 어쩔 수 없어요. (It's raining, can't be helped.)"},
+{k:"별로예요",r:"byeolloyeyo",en:"not great/so-so",pos:"phrase",ex:"그 영화 어땠어요? 별로예요. (How was that movie? Not great.)"},
+{k:"괜히",r:"gwaenhi",en:"for no reason/pointlessly",pos:"adverb",ex:"괜히 걱정했어요. (I worried for nothing.)"},
+{k:"역시",r:"yeoksi",en:"as expected/indeed",pos:"adverb",ex:"역시 맛있어요! (As expected, it's delicious!)"},
+{k:"솔직히",r:"soljiki",en:"honestly/frankly",pos:"adverb",ex:"솔직히 말하면 별로예요. (Honestly, it's not great.)"},
+{k:"일단",r:"ildan",en:"first of all/for now",pos:"adverb",ex:"일단 앉아요. (Sit down for now.)"},
+{k:"어차피",r:"eochapi",en:"anyway/either way",pos:"adverb",ex:"어차피 늦었어요. (We're late anyway.)"},
+
+// Asking & Checking
+{k:"맞죠?",r:"matjyo",en:"right?/correct?",pos:"phrase",ex:"내일 만나요, 맞죠? (We meet tomorrow, right?)"},
+{k:"뭐라고요?",r:"mworaguyo",en:"pardon?/what did you say?",pos:"phrase",ex:"뭐라고요? 다시 말해 주세요. (Pardon? Please say it again.)"},
+{k:"혹시",r:"hoksi",en:"by any chance",pos:"adverb",ex:"혹시 한국어 해요? (Do you speak Korean by any chance?)"},
+{k:"언제부터",r:"eonjebuteo",en:"since when/from when",pos:"phrase",ex:"언제부터 한국어를 배웠어요? (Since when have you studied Korean?)"},
+{k:"얼마나",r:"eolmana",en:"how long/how much",pos:"phrase",ex:"얼마나 걸려요? (How long does it take?)"},
+
+// Feelings said out loud
+{k:"대박",r:"daebak",en:"awesome/jackpot (exclamation)",pos:"phrase",ex:"대박! 진짜요? (Awesome! Really?)"},
+{k:"어머",r:"eomeo",en:"oh my/wow (surprise)",pos:"phrase",ex:"어머, 너무 예뻐요! (Oh my, it's so pretty!)"},
+{k:"아이고",r:"aigo",en:"oh dear/oh no",pos:"phrase",ex:"아이고, 늦었어요! (Oh no, I'm late!)"},
+{k:"헐",r:"heol",en:"wow/unbelievable (casual)",pos:"phrase",ex:"헐, 진짜요? (Wow, really?)"},
+
+// Everyday Situations
+{k:"다음에",r:"daeume",en:"next time",pos:"adverb",ex:"다음에 같이 가요. (Let's go together next time.)"},
+{k:"잠깐",r:"jamkkan",en:"a moment/briefly",pos:"adverb",ex:"잠깐만 기다려요. (Wait just a moment.)"},
+{k:"드디어",r:"deudieo",en:"finally",pos:"adverb",ex:"드디어 끝났어요! (It's finally over!)"},
+{k:"갑자기",r:"gapjagi",en:"suddenly",pos:"adverb",ex:"갑자기 왜요? (Why suddenly?)"},
+{k:"아직도",r:"ajikdo",en:"still (even now)",pos:"adverb",ex:"아직도 안 왔어요? (Still hasn't come?)"},
+{k:"벌써",r:"beolsseo",en:"already (sooner than expected)",pos:"adverb",ex:"벌써 10시예요! (It's already 10 o'clock!)"},
+  // Greetings & Basic Social
+{k:"잘 자요",r:"jal jayo",en:"good night",pos:"phrase",ex:"잘 자요! 내일 봐요. (Good night! See you tomorrow.)"},
+{k:"반가워요",r:"bangawoyo",en:"nice to meet you",pos:"phrase",ex:"처음 뵙겠습니다, 반가워요! (Nice to meet you!)"},
+{k:"오랜만이에요",r:"oraenmanieoyo",en:"long time no see",pos:"phrase",ex:"오랜만이에요! 잘 지냈어요? (Long time no see! Have you been well?)"},
+{k:"실례합니다",r:"sillyehamnida",en:"excuse me (formal)",pos:"phrase",ex:"실례합니다, 화장실이 어디예요? (Excuse me, where is the restroom?)"},
+
+// Daily Actions
+{k:"충전하다",r:"chungjeonhada",en:"to charge (phone)",pos:"verb",conj:{past:"충전했어요 (chungjeonhaesseoyo)",present:"충전해요 (chungjonhaeyo)",future:"충전할 거예요 (chungjeonhal geoyeyo)"},ex:"폰을 충전해요. (I charge my phone.)"},
+{k:"취소하다",r:"chwisohada",en:"to cancel",pos:"verb",conj:{past:"취소했어요 (chwisohaesseoyo)",present:"취소해요 (chwisohaeyo)",future:"취소할 거예요 (chwisohal geoyeyo)"},ex:"예약을 취소했어요. (I cancelled the reservation.)"},
+{k:"갈아타다",r:"garatada",en:"to transfer (transit)",pos:"verb",conj:{past:"갈아탔어요 (garatasseoyo)",present:"갈아타요 (garatayo)",future:"갈아탈 거예요 (garatal geoyeyo)"},ex:"2호선으로 갈아타요. (I transfer to Line 2.)"},
+
+// Money & Payments
+{k:"잔돈",r:"jandon",en:"change (money)",pos:"noun",ex:"잔돈 주세요. (Please give me change.)"},
+{k:"카드 되요?",r:"kadeu dwaeyo",en:"do you accept card?",pos:"phrase",ex:"여기 카드 되요? (Do you accept card here?)"},
+{k:"영수증 주세요",r:"yeongsujeung juseyo",en:"please give me a receipt",pos:"phrase",ex:"영수증 주세요. (Please give me a receipt.)"},
+
+// Common Expressions
+{k:"맞아요",r:"majayo",en:"that's right/correct",pos:"phrase",ex:"맞아요, 제 말이 그 말이에요. (That's right, that's what I mean.)"},
+{k:"어떻게 생각해요?",r:"eotteoke saenggakhaeyo",en:"what do you think?",pos:"phrase",ex:"이 계획 어떻게 생각해요? (What do you think about this plan?)"},
+{k:"배고파 죽겠어요",r:"baegopa jukkesseoyo",en:"I'm starving",pos:"phrase",ex:"밥 먹어요! 배고파 죽겠어요. (Let's eat! I'm starving.)"},
+{k:"피곤해 죽겠어요",r:"pigonhae jukkesseoyo",en:"I'm dead tired",pos:"phrase",ex:"오늘 너무 힘들었어요. 피곤해 죽겠어요. (Today was so hard. I'm dead tired.)"},
+
+// Transport
+{k:"몇 정거장",r:"myeot jeonggeojang",en:"how many stops",pos:"phrase",ex:"여기서 몇 정거장이에요? (How many stops from here?)"},
+{k:"막차",r:"makcha",en:"last train/bus",pos:"noun",ex:"막차를 놓쳤어요. (I missed the last train.)"},
+{k:"첫차",r:"cheotcha",en:"first train/bus",pos:"noun",ex:"첫차가 몇 시예요? (What time is the first train?)"},
   {k:"쇼핑",r:"syoping",en:"shopping",pos:"noun",ex:"주말에 쇼핑을 해요. (I go shopping on weekends.)"},
   {k:"가게",r:"gage",en:"store/shop",pos:"noun",ex:"작은 가게예요. (It's a small shop.)"},
   {k:"백화점",r:"baekhwajeom",en:"department store",pos:"noun",ex:"백화점에서 옷을 사요. (I buy clothes at the department store.)"},

@@ -954,16 +954,42 @@ function showResult() {
     });
 
     document.getElementById('btn-review-missed').style.display = 'inline-block';
+     document.getElementById('btn-study-result').style.display = 'inline-block';
   } else {
     document.getElementById('wrong-list').style.display = 'none';
     document.getElementById('btn-review-missed').style.display = 'none';
+    document.getElementById('btn-study-result').style.display = 'none';
   }
 
   updateWeakBanner();
   updatePinnedBanner();
   updateHubMeta();
 }
+function startResultStudy() {
+  if (wrongWords.length === 0) { showToast('No missed words to study!'); return; }
+  const sc = document.getElementById('speed-control');
+  if (sc) sc.remove();
+  currentSet = { id: 0, name: '📖 Missed Words Review', vocab: wrongWords, color: '#f05a7e' };
+  showScreen('study-screen');
+  document.getElementById('study-title').textContent = '📖 Missed Words';
+  document.getElementById('study-search').value = '';
+  renderStudyList(wrongWords);
+  renderSpeedControl();
+}
 
+function startWeakStudy() {
+  const ww = getWeakWords();
+  const words = Object.values(ww);
+  if (words.length === 0) { showToast('No weak words yet!'); return; }
+  const sc = document.getElementById('speed-control');
+  if (sc) sc.remove();
+  currentSet = { id: 0, name: '🎯 Weak Words', vocab: words, color: '#f05a7e' };
+  showScreen('study-screen');
+  document.getElementById('study-title').textContent = '🎯 Weak Words';
+  document.getElementById('study-search').value = '';
+  renderStudyList(words);
+  renderSpeedControl();
+}
 /* ================================================================
    LEADERBOARD
 ================================================================ */

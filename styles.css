@@ -1581,3 +1581,95 @@ background: radial-gradient(ellipse at 50% 0%, #230f3b 0%, #07080f 50%, #0e0f0f 
   .flash-face        { padding: 20px 16px; }
 }
 
+
+
+/* Study missed — inside wrong-list box */
+.btn-study-missed {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(94, 106, 210, 0.12);
+  color: #8b9aff;
+  border: 1px solid rgba(94, 106, 210, 0.3);
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.btn-study-missed:hover { background: rgba(94, 106, 210, 0.22); }
+
+/* Study missed — in result actions row (matches btn-review style) */
+.btn-study-result {
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: rgba(94, 106, 210, 0.15);
+  color: #8b9aff;
+  border: 1px solid rgba(94, 106, 210, 0.3) !important;
+}
+.btn-study-result:hover { background: rgba(94, 106, 210, 0.25); }
+
+/* Mobile: stack result action buttons */
+@media (max-width: 480px) {
+  .result__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .result__actions button {
+    width: 100%;
+    text-align: center;
+  }
+  .wrong-list {
+    max-height: 220px; /* more room on small screens */
+  }
+}
+
+
+/* Weak words banner */
+.weak-banner {
+  background: linear-gradient(135deg, rgba(240,90,126,0.12), rgba(240,90,126,0.04));
+  border: 1px solid rgba(240,90,126,0.25);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: border-color var(--transition);
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.weak-banner:hover { border-color: rgba(240,90,126,0.5); }
+
+.weak-banner__left  { display: flex; align-items: center; gap: 12px; flex: 1; }
+.weak-banner__icon  { font-size: 24px; flex-shrink: 0; }
+.weak-banner__title { font-size: 14px; font-weight: 700; color: var(--red); }
+.weak-banner__sub   { font-size: 12px; color: var(--muted); }
+
+.weak-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.weak-banner__count {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--red);
+  min-width: 32px;
+  text-align: center;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .weak-banner { flex-direction: column; align-items: flex-start; }
+  .weak-banner__actions { width: 100%; justify-content: space-between; }
+  .review-btns { display: flex; gap: 10px; }
+}
